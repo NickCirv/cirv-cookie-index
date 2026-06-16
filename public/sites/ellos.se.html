@@ -99,7 +99,25 @@ footer.site{border-top:1px solid var(--rule);margin-top:64px;padding:32px 0;colo
 @media print{header.site,footer.site,.cta,.search,.skip{display:none!important}body{background:#fff;font-size:12px}a{color:#000;text-decoration:none}.stats,.tbl-wrap,.report-lists,.bar-row{break-inside:avoid}main h2{margin-top:22px}}
 @media (max-width:760px){.stats,.tiers{grid-template-columns:1fr 1fr}.stat,.tier{border-left:0;border-top:1px solid var(--line)}.stats .stat:nth-child(-n+2),.tiers .tier:nth-child(-n+2){border-top:0}}
 @media (max-width:480px){.stats{grid-template-columns:1fr}.stat{border-top:1px solid var(--line)}.stat:first-child{border-top:0}}
+.hero{position:relative;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-30% -15% auto -15%;height:460px;z-index:-1;pointer-events:none;background:radial-gradient(55% 100% at 22% 0%,rgba(31,122,77,.10),transparent 70%)}
+header.site{transition:box-shadow .25s var(--ease)}
+header.site.scrolled{box-shadow:0 1px 0 var(--line),0 8px 24px rgba(20,23,26,.06)}
+nav.primary{flex-wrap:wrap}
+@media (prefers-reduced-motion:no-preference){
+.anim{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease);will-change:opacity,transform}
+.anim.shown{opacity:1;transform:none}
+.bar-fill{transition:width 1s var(--ease)}
+.stat,.tier{transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease)}
+.stat:hover{transform:translateY(-2px)}
+.tier:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 30px rgba(20,23,26,.07)}
+.badge{transition:transform .14s var(--ease)}
+tbody tr:hover .badge{transform:scale(1.06)}
+a.btn{transition:background .14s var(--ease),transform .14s var(--ease),box-shadow .2s var(--ease)}
+a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:680px){header.site .wrap{flex-direction:column;align-items:flex-start;height:auto;gap:10px;padding:12px 0}nav.primary{width:100%;gap:12px 16px}.hero{padding:40px 0 8px}.hero h1{font-size:clamp(2rem,8vw,2.6rem)}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Accessibility report for ellos.se","url":"https://cookies.cirvgreen.com/sites/ellos.se.html","dateModified":"2026-06-16","isPartOf":{"@type":"Dataset","name":"Cirv Cookie Index","url":"https://cookies.cirvgreen.com/"},"about":{"@type":"WebSite","url":"https://ellos.se/"}}</script>
 </head>
@@ -138,5 +156,39 @@ Get the full dataset via the API, or compare with our accessibility index.
 <footer class="site"><div class="wrap">
 Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
 </div></footer>
+<script>
+(function(){
+var mq=window.matchMedia('(prefers-reduced-motion: reduce)');
+var h=document.querySelector('header.site');
+function sh(){ if(h) h.classList.toggle('scrolled', window.pageYOffset>4); }
+sh(); window.addEventListener('scroll', sh, {passive:true});
+if(mq.matches) return;
+var sel='.hero, .stats, main h2, .cta, .tiers, .report-lists, .field, .keybox, .report-hero';
+var els=[].slice.call(document.querySelectorAll(sel));
+els.forEach(function(el){ el.classList.add('anim'); });
+var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('shown'); io.unobserve(e.target); } }); }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+els.forEach(function(el){ io.observe(el); });
+setTimeout(function(){ els.forEach(function(el){ el.classList.add('shown'); }); }, 1500);
+[].slice.call(document.querySelectorAll('.stat b')).forEach(function(el){
+  if(el.children.length!==0) return;
+  var txt=el.textContent.trim();
+  if(!/^[0-9][0-9,]*%?$/.test(txt)) return;
+  var pct=txt.indexOf('%')>-1;
+  var target=parseInt(txt.replace(/[,%]/g,''),10);
+  if(!(target>0)) return;
+  var done=false;
+  var o=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !done){ done=true; var start=performance.now();
+    function step(now){ var p=Math.min(1,(now-start)/900); var eased=1-Math.pow(1-p,3); el.textContent=Math.round(target*eased).toLocaleString()+(pct?'%':''); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step); o.unobserve(e.target); } }); }, {threshold:0.6});
+  o.observe(el);
+});
+[].slice.call(document.querySelectorAll('.bar-row')).forEach(function(row){
+  var f=row.querySelector('.bar-fill'); if(!f) return;
+  var w=f.style.width; f.style.width='0';
+  var o=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ f.getBoundingClientRect(); requestAnimationFrame(function(){ f.style.width=w; }); o.unobserve(e.target); } }); }, {threshold:0.3});
+  o.observe(row);
+});
+})();
+</script>
 </body>
 </html>
