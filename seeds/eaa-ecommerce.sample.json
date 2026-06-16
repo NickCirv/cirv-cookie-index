@@ -1,0 +1,18 @@
+{
+  "_note": "Starter seed — well-known e-commerce sites selling into the EU (EAA scope). Public homepages only. Replace/expand with a larger acquired list in Phase 0.5.",
+  "universe": "eaa-ecommerce",
+  "domains": [
+    "zalando.de",
+    "asos.com",
+    "boohoo.com",
+    "aboutyou.de",
+    "bol.com",
+    "otto.de",
+    "mediamarkt.de",
+    "fnac.com",
+    "cdiscount.com",
+    "decathlon.com",
+    "douglas.de",
+    "allegro.pl"
+  ]
+}

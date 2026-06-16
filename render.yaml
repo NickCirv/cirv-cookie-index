@@ -1,0 +1,19 @@
+# Render Blueprint — serves the PRE-BUILT static directory in ./public.
+# No crawl/compile at deploy (that was fragile). The data-refresh loop runs
+# `npm run refresh` (locally or via n8n) and commits ./public → Render auto-deploys.
+# Flip the published brands via the generator's --mode flag at refresh time:
+#   npm run crawl seeds/eaa-ecommerce.json && node bin/build-site.js --mode named
+services:
+  - type: web
+    name: cirv-cookie-index
+    runtime: static
+    buildCommand: "echo 'serving prebuilt ./public'"
+    staticPublishPath: ./public
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin

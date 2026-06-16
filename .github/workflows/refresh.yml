@@ -1,0 +1,41 @@
+name: refresh-data
+
+# Weekly: re-crawl the seed list, rebuild the directory, commit public/.
+# The push auto-triggers Render to redeploy the directory (and the API, which
+# re-crawls at build) — so the whole thing stays fresh, hands-off.
+on:
+  schedule:
+    - cron: '0 6 * * 1' # Mondays 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Crawl
+        run: node bin/crawl.js seeds/eaa-ecommerce.json --concurrency 5
+      - name: Build site
+        run: node bin/build-site.js --base https://cirv-cookie-index.onrender.com
+      - name: Commit refreshed site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(data): weekly refresh [skip ci]"
+            git push
+          fi

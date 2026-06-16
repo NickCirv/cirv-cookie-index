@@ -1,0 +1,25 @@
+# secrets — never commit
+.env
+*.env
+api/.env
+
+# dependencies
+node_modules/
+
+# runtime artifacts
+data/
+*.db
+# NOTE: public/ is committed (the prebuilt static site Render serves).
+# Regenerate with `npm run refresh` and commit — that's the deploy/refresh loop.
+*.db-shm
+*.db-wal
+
+# the public scanner is a separate repo, present locally for dev only
+scanner/
+
+# os
+.DS_Store
+
+# local tooling — never publish
+.claude/
+.engram/

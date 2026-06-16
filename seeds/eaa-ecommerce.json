@@ -1,0 +1,18 @@
+{
+  "_note": "Mid-market e-commerce selling into the EU (EAA scope). Public homepages only, robots-respected. These are the actual buyers — scared of EAA fines, have budget, far less bot-management than mega-retailers. The crawl self-validates: dead domains surface as dns/error, bot-walled ones as blocked_403.",
+  "universe": "eaa-ecommerce",
+  "domains": [
+    "notino.de", "flaconi.de", "baur.de", "bonprix.de", "tchibo.de",
+    "reuter.de", "home24.de", "fahrrad.de", "breuninger.com", "manufactum.de",
+    "avocadostore.de", "asambeauty.com", "bergfreunde.de", "mytoys.de", "juniqe.com",
+    "laredoute.fr", "sarenza.com", "spartoo.com", "sezane.com", "nocibe.fr",
+    "maisonsdumonde.com", "smallable.com", "made-in-design.com", "alltricks.fr", "cdiscount.com",
+    "wehkamp.nl", "omoda.nl", "hema.nl", "fonq.nl", "simonlevelt.nl",
+    "yoox.com", "luisaviaroma.com", "eataly.com", "bottegaverde.it", "naturitas.es",
+    "hawkersco.com", "scalperscompany.com", "privalia.com", "perfumeriasprimor.com",
+    "modivo.pl", "eobuwie.pl", "answear.com", "x-kom.pl",
+    "nelly.com", "ellos.se", "na-kd.com", "babyshop.com", "royaldesign.com", "bangerhead.com",
+    "lookfantastic.com", "cultbeauty.co.uk", "gymshark.com", "charlottetilbury.com", "boohoo.com",
+    "zalando.de", "aboutyou.de", "fnac.com"
+  ]
+}
