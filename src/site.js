@@ -16,7 +16,7 @@ const { latestScans } = require('./store');
 const DEFAULT_BASE = 'https://index.cirvgreen.com'; // placeholder — see repo/domain ADR
 const SCANNER_URL = 'https://cirv-a11y-scanner.onrender.com';
 const GUARD_URL = 'https://wordpress.org/plugins/cirv-guard/';
-const A11Y_INDEX_URL = 'https://cirv-accessibility-index.onrender.com';
+const A11Y_INDEX_URL = 'https://index.cirvgreen.com';
 const API_URL = 'https://cirv-cookie-api.onrender.com'; // override with --api-url
 
 // Cookieless analytics — no cookies, no PII. Set at build via
