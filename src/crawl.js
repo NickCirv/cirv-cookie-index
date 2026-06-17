@@ -10,12 +10,20 @@
 const { scan } = require('../engine/cookies');
 const { ScanError } = require('../engine/fetch');
 const { fetchHtml } = require('./fetch'); // crawler-grade: retry + granular errors
+const { fetchViaFirecrawl } = require('./firecrawl'); // real-browser fallback for bot-management
 const { fetchRobots } = require('./robots');
 const { pLimit } = require('./limit');
 const { recordScan } = require('./store');
 
 const DEFAULT_CONCURRENCY = 4;
 const DEFAULT_DELAY_MS = 250;
+
+// Direct-fetch failures worth retrying through a real browser (Firecrawl).
+// Bot-management blocks + transient network/timeout; NOT dns/http_404/not_html
+// (those won't be fixed by a different client).
+const FIRECRAWL_FALLBACK_CODES = new Set([
+  'blocked_403', 'blocked_401', 'timeout', 'fetch', 'network', 'redirects',
+]);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -38,6 +46,9 @@ async function scanOne(domain, opts = {}) {
   const _fetchHtml = deps.fetchHtml || fetchHtml;
   const _scan = deps.scan || scan;
   const _fetchRobots = deps.fetchRobots || fetchRobots;
+  const hasKey = !!(opts.firecrawlKey || process.env.FIRECRAWL_API_KEY);
+  const _fetchViaFirecrawl =
+    opts.firecrawl === false ? null : deps.fetchViaFirecrawl || (hasKey ? fetchViaFirecrawl : null);
   const scanned_at = opts.now || Date.now();
 
   try {
@@ -47,7 +58,27 @@ async function scanOne(domain, opts = {}) {
         return { domain, status: 'skipped', error_code: 'robots_disallow', scanned_at };
       }
     }
-    const { html, finalUrl } = await _fetchHtml(homepageUrl(domain));
+
+    let html, finalUrl;
+    let via = 'direct';
+    try {
+      ({ html, finalUrl } = await _fetchHtml(homepageUrl(domain)));
+    } catch (err) {
+      const code = err instanceof ScanError ? err.code : (err && err.code) || 'error';
+      // Real-browser fallback for bot-management blocks. On firecrawl failure,
+      // rethrow the ORIGINAL error so the dataset records the true block reason.
+      if (_fetchViaFirecrawl && FIRECRAWL_FALLBACK_CODES.has(code)) {
+        try {
+          ({ html, finalUrl } = await _fetchViaFirecrawl(homepageUrl(domain), { apiKey: opts.firecrawlKey }));
+          via = 'firecrawl';
+        } catch (_fcErr) {
+          throw err;
+        }
+      } else {
+        throw err;
+      }
+    }
+
     const r = _scan(html);
     return {
       domain,
@@ -58,6 +89,7 @@ async function scanOne(domain, opts = {}) {
       fails: r.fails,
       total: r.total,
       results: r.results,
+      via,
       scanned_at,
     };
   } catch (err) {
@@ -87,7 +119,12 @@ async function crawl(db, domains, opts = {}) {
   let done = 0;
   const tasks = list.map((domain) =>
     limit(async () => {
-      const row = await scanOne(domain, { respectRobots, deps });
+      const row = await scanOne(domain, {
+        respectRobots,
+        deps,
+        firecrawl: opts.firecrawl,
+        firecrawlKey: opts.firecrawlKey,
+      });
       recordScan(db, row);
       if (delayMs) await sleep(delayMs);
       done++;

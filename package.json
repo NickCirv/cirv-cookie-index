@@ -6,8 +6,9 @@
   "type": "commonjs",
   "engines": { "node": "22.x" },
   "scripts": {
-    "test": "node engine/test.js && node api/test.js",
+    "test": "node engine/test.js && node test.js && node api/test.js",
     "test:engine": "node engine/test.js",
+    "test:crawl": "node test.js",
     "test:api": "node api/test.js",
     "crawl": "node bin/crawl.js",
     "report": "node bin/report.js",
