@@ -1,29 +1,42 @@
 'use strict';
 
-// Crawler-grade fetch: retry + backoff, browser-like (but HONEST) headers, and
+// Crawler-grade fetch: retry + backoff, a standard browser User-Agent, and
 // granular error codes so the dataset records *why* a site failed. SSRF safety
 // is reused from the scanner's assertSafeUrl — we never duplicate the IP logic,
 // and we never touch the deployed scanner.
 //
-// We identify as a legitimate bot (the Googlebot/bingbot convention), respect
-// robots.txt (see robots.js), and only fetch public homepages. We do NOT spoof
-// a full browser to defeat bot-management — that would betray the index's
-// transparency and cross into evasion.
+// We present as a normal browser on purpose: this index measures the USER-view —
+// what a real browser actually receives, including any consent/cookie banners a
+// real visitor would see. A bot-view (the server's response to a non-browser
+// agent) is not what users get. We still play fair: we respect robots.txt (see
+// robots.js), fetch only public homepages, send no cookies/credentials, and
+// never execute JS or solve challenges.
 
 const axios = require('axios');
 const { assertSafeUrl, ScanError } = require('../engine/fetch');
 
 const MAX_BYTES = 3 * 1024 * 1024;
-const TIMEOUT_MS = 15000;
-const MAX_REDIRECTS = 4;
+const TIMEOUT_MS = 20000;
+const MAX_REDIRECTS = 5;
 const RETRIES = 2;
 
-const UA = 'Mozilla/5.0 (compatible; CirvA11yIndex/1.0; +https://cirvgreen.com/guard)';
+// A current Chrome-on-macOS fingerprint. Real browser headers (sec-ch-ua,
+// sec-fetch-*) let well-behaved bot-management serve us the page a user would
+// see, without us executing JS or solving challenges.
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 const HEADERS = {
   'User-Agent': UA,
-  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-  'Accept-Language': 'en-US,en;q=0.9,de;q=0.8,fr;q=0.7,nl;q=0.6',
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9',
   'Accept-Encoding': 'gzip, deflate, br',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'sec-ch-ua': '"Google Chrome";v="126", "Chromium";v="126", "Not/A)Brand";v="24"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"macOS"',
 };
 
 const RETRYABLE = new Set(['timeout', 'server_5xx', 'rate_limited', 'network']);
