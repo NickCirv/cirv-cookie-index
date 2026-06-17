@@ -17,3 +17,23 @@ services:
       - path: /*
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
+
+  # API service — powers the pricing page's "Get a free key" + the public data
+  # endpoints. Crawls a fresh dataset at build, then serves it. Free tier sleeps
+  # after 15min idle; the pricing page pre-warms it with a /healthz ping on load.
+  # Paid Subscribe (Stripe) returns 503 until STRIPE_SECRET_KEY + price IDs are set.
+  - type: web
+    name: cirv-cookie-api
+    runtime: node
+    plan: free
+    buildCommand: "npm ci && npm run crawl seeds/eaa-ecommerce.json"
+    startCommand: "npm run api"
+    healthCheckPath: /healthz
+    pullRequestPreviewsEnabled: false
+    envVars:
+      - key: DATA_DB
+        value: ./data/index.db
+      - key: CORS_ORIGINS
+        value: "https://cookies.cirvgreen.com,https://cirv-cookie-index.onrender.com"
+      - key: PORT
+        value: "4000"

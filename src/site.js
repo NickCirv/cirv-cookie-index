@@ -568,10 +568,11 @@ function renderPricing(opts = {}) {
 <script>
 (function(){
 var API=${JSON.stringify(apiUrl)};
+setTimeout(function(){try{fetch(API+'/healthz').then(function(){},function(){});}catch(e){}},100);
 var email=document.getElementById('email'),msg=document.getElementById('msg'),keybox=document.getElementById('keybox');
 function setMsg(t,err){msg.textContent=t;msg.className='msg'+(err?' err':' ok');}
 function emailOK(v){return /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(v);}
-function offline(){setMsg('Could not reach the API — it may be waking up. Try again in ~30s.',true);}
+function offline(){setMsg('The API is waking up (free tier, ~20s) — give it a moment and click again.',true);}
 document.getElementById('getkey').addEventListener('click',function(){
   var e=email.value.trim();
   if(!emailOK(e)){setMsg('Enter a valid email.',true);return;}

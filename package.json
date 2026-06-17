@@ -6,14 +6,19 @@
   "type": "commonjs",
   "engines": { "node": "22.x" },
   "scripts": {
-    "test": "node engine/test.js",
+    "test": "node engine/test.js && node api/test.js",
+    "test:engine": "node engine/test.js",
+    "test:api": "node api/test.js",
     "crawl": "node bin/crawl.js",
     "report": "node bin/report.js",
     "build": "node bin/build-site.js",
-    "refresh": "node bin/crawl.js seeds/eaa-ecommerce.json && node bin/build-site.js"
+    "refresh": "node bin/crawl.js seeds/eaa-ecommerce.json && node bin/build-site.js",
+    "api": "node api/server.js"
   },
   "dependencies": {
     "axios": "^1.7.7",
-    "better-sqlite3": "^11.3.0"
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.21.2",
+    "stripe": "^17.5.0"
   }
 }
