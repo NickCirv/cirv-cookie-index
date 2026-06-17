@@ -25,6 +25,10 @@ jobs:
           node-version: '22'
       - run: npm ci
       - name: Crawl
+        env:
+          # Real-browser fallback for bot-managed sites (recovers ~16 blocked_403s).
+          # Set as a repo secret; absent => crawler runs direct-only.
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
         run: node bin/crawl.js seeds/eaa-ecommerce.json --concurrency 5
       - name: Build site
         run: node bin/build-site.js --base https://cookies.cirvgreen.com
