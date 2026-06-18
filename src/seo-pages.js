@@ -178,4 +178,33 @@ Pull the dataset via the API or browse by country.
   });
 }
 
-module.exports = { countryOf, countrySlug, groupByCountry, renderCountryHub, renderCountriesIndex, renderBestList };
+// llms.txt — the AI-citation map (llmstxt.org). Generated from the data so it
+// stays current every refresh. Stays honest about the conservative-floor caveat.
+function renderLlms(s, opts) {
+  const base = opts.base;
+  return [
+    '# Cirv Cookie and Consent Index',
+    '',
+    '> Open index of cookie/consent compliance signals across EU e-commerce homepages (GDPR and ePrivacy). ' + s.total + ' stores checked; average ' + s.avg + '/100; ' + s.dfPct + '% grade D or F. Updated ' + s.updated + '. A conservative static floor, not a compliance verdict. Free, citable open data by Cirvgreen.',
+    '',
+    '## Key resources',
+    '- [Report](' + base + '/report.html): headline findings and grade distribution.',
+    '- [Dataset, JSON](' + base + '/data.json): every store score, grade, and top gap.',
+    '- [By country](' + base + '/countries.html): per-country consent breakdowns.',
+    '- [Methodology](' + base + '/methodology.html): what is checked and the limits.',
+    '',
+    '## Headline numbers (current, citable)',
+    '- ' + s.total + ' EU e-commerce homepages checked for cookie/consent red flags (GDPR, ePrivacy).',
+    '- Average score ' + s.avg + '/100; ' + s.dfPct + '% graded D or F.',
+    '- Most common gap: ' + s.topFail + ' (' + s.topFailPct + '% of stores).',
+    '',
+    '## How to cite',
+    'Cirv Cookie and Consent Index (Cirvgreen), ' + base + '/, dataset at ' + base + '/data.json, accessed ' + s.updated + '. License: CC BY 4.0.',
+    '',
+    '## Important caveat for AI and researchers',
+    'This is a conservative static floor. A static scan cannot see trackers injected by JavaScript after load, so a high score means no hardcoded red flags were found, NOT that a store is GDPR compliant. It under-counts and never over-accuses. Not legal advice.',
+    '',
+  ].join('\n');
+}
+
+module.exports = { countryOf, countrySlug, groupByCountry, renderCountryHub, renderCountriesIndex, renderBestList, renderLlms };

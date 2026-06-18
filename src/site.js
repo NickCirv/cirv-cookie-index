@@ -13,7 +13,7 @@ const fs = require('fs');
 const path = require('path');
 const { latestScans } = require('./store');
 
-const DEFAULT_BASE = 'https://index.cirvgreen.com'; // placeholder — see repo/domain ADR
+const DEFAULT_BASE = 'https://cookies.cirvgreen.com'; // this index's canonical host
 const SCANNER_URL = 'https://cirv-a11y-scanner.onrender.com';
 const GUARD_URL = 'https://wordpress.org/plugins/cirv-guard/';
 const A11Y_INDEX_URL = 'https://index.cirvgreen.com';
@@ -798,9 +798,23 @@ function buildSite(db, outDir, opts = {}) {
     path.join(outDir, 'robots.txt'),
     `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`
   );
+  const _updated = fmtDate(rows.reduce((m, r) => Math.max(m, r.scanned_at || 0), 0));
+  const _df = ok.filter((r) => ['D', 'F'].includes(grade(r.score))).length;
+  const _fc = {};
+  ok.forEach((r) => { const ti = topIssue(r.results_json); if (ti) _fc[ti] = (_fc[ti] || 0) + 1; });
+  const _tfe = Object.entries(_fc).sort((a, b) => b[1] - a[1]);
+  const _stats = {
+    total: ok.length,
+    avg: ok.length ? Math.round(ok.reduce((a, r) => a + (r.score || 0), 0) / ok.length) : 0,
+    dfPct: ok.length ? Math.round((_df / ok.length) * 100) : 0,
+    topFail: _tfe.length ? _tfe[0][0] : 'core checks',
+    topFailPct: _tfe.length && ok.length ? Math.round((_tfe[0][1] / ok.length) * 100) : 0,
+    updated: _updated,
+  };
+  fs.writeFileSync(path.join(outDir, 'llms.txt'), seo.renderLlms(_stats, { base }));
   fs.writeFileSync(
     path.join(outDir, 'data.json'),
-    JSON.stringify({ updated: fmtDate(rows.reduce((m, r) => Math.max(m, r.scanned_at || 0), 0)), mode, count: ok.length, sites: rows.map((r) => publicRow(r, mode)) }, null, 2)
+    JSON.stringify({ updated: _updated, mode, count: ok.length, license: 'CC-BY-4.0', cite: 'Cirv Cookie and Consent Index (Cirvgreen), ' + base + ', accessed ' + _updated, source: base, sites: rows.map((r) => publicRow(r, mode)) }, null, 2)
   );
 
   return { outDir, pages: 4 + eligible.length + countryGroups.length + 2, scored: ok.length, named: eligible.length, countries: countryGroups.length, total: rows.length, mode };
