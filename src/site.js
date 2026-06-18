@@ -231,7 +231,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
 <a class="brand" href="/">Cirv <b>Cookie Index</b></a>
-<nav class="primary" aria-label="Primary"><a href="/">Index</a><a href="/report.html">Report</a><a href="/pricing.html">Pricing &amp; API</a><a href="/methodology.html">Methodology</a><a href="${esc(A11Y_INDEX_URL)}">Accessibility index</a></nav>
+<nav class="primary" aria-label="Primary"><a href="/">Index</a><a href="/countries.html">Countries</a><a href="/report.html">Report</a><a href="/pricing.html">Pricing &amp; API</a><a href="/methodology.html">Methodology</a><a href="${esc(A11Y_INDEX_URL)}">Accessibility index</a></nav>
 </div></header>
 <main id="main"><div class="wrap">
 ${body}
@@ -728,10 +728,10 @@ Run the free scanner, or pull the full dataset via the API.
   });
 }
 
-function renderSitemap(rows, base) {
-  const urls = [base + '/', base + '/report.html', base + '/pricing.html', base + '/methodology.html'].concat(
-    rows.map((r) => base + '/sites/' + safeFile(r.domain) + '.html')
-  );
+function renderSitemap(rows, base, extra = []) {
+  const urls = [base + '/', base + '/countries.html', base + '/best.html', base + '/report.html', base + '/pricing.html', base + '/methodology.html']
+    .concat(extra.map((p) => base + p))
+    .concat(rows.map((r) => base + '/sites/' + safeFile(r.domain) + '.html'));
   return (
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     urls.map((u) => `<url><loc>${esc(u)}</loc></url>`).join('\n') +
@@ -777,7 +777,23 @@ function buildSite(db, outDir, opts = {}) {
   for (const r of eligible) {
     fs.writeFileSync(path.join(outDir, 'sites', safeFile(r.domain) + '.html'), renderSite(r, { base }));
   }
-  fs.writeFileSync(path.join(outDir, 'sitemap.xml'), renderSitemap(eligible, base));
+
+  // Programmatic SEO surface: per-country hubs + countries index + best-in-class.
+  // Helpers injected (all in scope here) so seo-pages has no circular import.
+  const seo = require('./seo-pages');
+  const seoH = { layout, esc, grade, gradeClass, safeFile, fmtDate };
+  const countryGroups = seo.groupByCountry(ok);
+  fs.mkdirSync(path.join(outDir, 'country'), { recursive: true });
+  for (const g of countryGroups) {
+    fs.writeFileSync(path.join(outDir, 'country', g.slug + '.html'), seo.renderCountryHub(g, { base, mode, h: seoH }));
+  }
+  fs.writeFileSync(path.join(outDir, 'countries.html'), seo.renderCountriesIndex(countryGroups, { base, h: seoH }));
+  fs.writeFileSync(path.join(outDir, 'best.html'), seo.renderBestList(ok, { base, mode, h: seoH }));
+
+  fs.writeFileSync(
+    path.join(outDir, 'sitemap.xml'),
+    renderSitemap(eligible, base, countryGroups.map((g) => '/country/' + g.slug + '.html'))
+  );
   fs.writeFileSync(
     path.join(outDir, 'robots.txt'),
     `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`
@@ -787,7 +803,7 @@ function buildSite(db, outDir, opts = {}) {
     JSON.stringify({ updated: fmtDate(rows.reduce((m, r) => Math.max(m, r.scanned_at || 0), 0)), mode, count: ok.length, sites: rows.map((r) => publicRow(r, mode)) }, null, 2)
   );
 
-  return { outDir, pages: 2 + eligible.length, scored: ok.length, named: eligible.length, total: rows.length, mode };
+  return { outDir, pages: 4 + eligible.length + countryGroups.length + 2, scored: ok.length, named: eligible.length, countries: countryGroups.length, total: rows.length, mode };
 }
 
 module.exports = { buildSite, renderIndex, renderSite, renderMethodology, renderPricing, renderReport, renderAnalytics, esc, grade, topIssue, safeFile };
