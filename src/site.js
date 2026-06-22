@@ -504,6 +504,28 @@ function renderMethodology(opts = {}) {
   });
 }
 
+function renderSuccess(opts = {}) {
+  const base = opts.base || DEFAULT_BASE;
+  const body = `
+<section class="hero"><h1>Payment successful</h1>
+<p>Thanks for subscribing to the Cirv Cookie Index API. Your subscription is now active.</p></section>
+<h2>What happens next</h2>
+<ul>
+<li>Your existing API key is upgraded to your new plan automatically. No new key is needed.</li>
+<li>A receipt is on its way to your email from Stripe.</li>
+<li>Your higher rate limit applies within a minute of this page loading.</li>
+</ul>
+<p>Lost your key? Recreate or recover it from the <a href="/pricing.html">pricing page</a> using the same email.</p>
+<p class="note"><a href="/">← Back to the index</a></p>`;
+  return layout({
+    title: 'Payment successful — Cirv Cookie Index',
+    description: 'Your Cirv Cookie Index API subscription is active.',
+    canonical: base + '/success.html',
+    jsonld: null,
+    body,
+  });
+}
+
 function renderPricing(opts = {}) {
   const base = opts.base || DEFAULT_BASE;
   const apiUrl = opts.apiUrl || API_URL;
@@ -771,6 +793,7 @@ function buildSite(db, outDir, opts = {}) {
   if (opts.analytics && opts.analytics.id) setAnalytics(opts.analytics.provider, opts.analytics.id);
   fs.writeFileSync(path.join(outDir, 'index.html'), renderIndex(rows, { base, mode }));
   fs.writeFileSync(path.join(outDir, 'pricing.html'), renderPricing({ base, apiUrl }));
+  fs.writeFileSync(path.join(outDir, 'success.html'), renderSuccess({ base }));
   fs.writeFileSync(path.join(outDir, 'report.html'), renderReport(rows, { base, mode }));
   fs.writeFileSync(path.join(outDir, 'methodology.html'), renderMethodology({ base }));
   for (const r of eligible) {
