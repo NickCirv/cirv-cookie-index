@@ -193,25 +193,24 @@ setTimeout(function(){try{fetch(API+'/healthz').then(function(){},function(){});
 var email=document.getElementById('email'),msg=document.getElementById('msg'),keybox=document.getElementById('keybox');
 function setMsg(t,err){msg.textContent=t;msg.className='msg'+(err?' err':' ok');}
 function emailOK(v){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);}
-function offline(){setMsg('The API is waking up (free tier, ~20s) — give it a moment and click again.',true);}
+function apiPost(path,payload){var ctrl=new AbortController();var timer=setTimeout(function(){ctrl.abort();},45000);return fetch(API+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),signal:ctrl.signal}).then(function(r){return r.json();}).finally(function(){clearTimeout(timer);});}
+function failMsg(err){return (err&&err.name==='AbortError')?'The server did not respond in time. It may be starting up after a quiet period; please try again in a moment.':'Could not reach the API. Check your connection and try again.';}
 document.getElementById('getkey').addEventListener('click',function(){
   var e=email.value.trim();
   if(!emailOK(e)){setMsg('Enter a valid email.',true);return;}
   setMsg('Creating your key…');
-  fetch(API+'/v1/signup',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:e})})
-    .then(function(r){return r.json();})
+  apiPost('/v1/signup',{email:e})
     .then(function(j){if(j.api_key){keybox.textContent=j.api_key;keybox.style.display='block';setMsg('Key created — copy it now, it is shown only once.');}else{setMsg(j.message||'A key already exists for that email.',false);}})
-    .catch(offline);
+    .catch(function(err){setMsg(failMsg(err),true);});
 });
 [].forEach.call(document.querySelectorAll('[data-tier]'),function(btn){
   btn.addEventListener('click',function(){
     var e=email.value.trim();
     if(!emailOK(e)){setMsg('Enter your email above first.',true);email.focus();return;}
     btn.disabled=true;setMsg('Opening secure checkout…');
-    fetch(API+'/v1/billing/checkout',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tier:btn.getAttribute('data-tier'),email:e})})
-      .then(function(r){return r.json();})
+    apiPost('/v1/billing/checkout',{tier:btn.getAttribute('data-tier'),email:e})
       .then(function(j){if(j.url){window.location.href=j.url;}else{setMsg(j.error||'Checkout unavailable.',true);btn.disabled=false;}})
-      .catch(function(){offline();btn.disabled=false;});
+      .catch(function(err){setMsg(failMsg(err),true);btn.disabled=false;});
   });
 });
 })();
