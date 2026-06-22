@@ -37,3 +37,5 @@ services:
         value: "https://cookies.cirvgreen.com,https://cirv-cookie-index.onrender.com"
       - key: PORT
         value: "4000"
+      - key: API_BASE_URL
+        value: "https://cookies.cirvgreen.com"
