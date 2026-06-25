@@ -1,6 +1,6 @@
 # Cirv Cookie and Consent Index
 
-> Open index of cookie/consent compliance signals across EU e-commerce homepages (GDPR and ePrivacy). 55 stores checked; average 65/100; 38% grade D or F. Updated 2026-06-22. A conservative static floor, not a compliance verdict. Free, citable open data by Cirvgreen.
+> Open index of cookie/consent compliance signals across EU e-commerce homepages (GDPR and ePrivacy). 55 stores checked; average 67/100; 36% grade D or F. Updated 2026-06-25. A conservative static floor, not a compliance verdict. Free, citable open data by Cirvgreen.
 
 ## Key resources
 - [Report](https://cookies.cirvgreen.com/report.html): headline findings and grade distribution.
@@ -10,11 +10,11 @@
 
 ## Headline numbers (current, citable)
 - 55 EU e-commerce homepages checked for cookie/consent red flags (GDPR, ePrivacy).
-- Average score 65/100; 38% graded D or F.
-- Most common gap: Consent platform (38% of stores).
+- Average score 67/100; 36% graded D or F.
+- Most common gap: Consent platform (36% of stores).
 
 ## How to cite
-Cirv Cookie and Consent Index (Cirvgreen), https://cookies.cirvgreen.com/, dataset at https://cookies.cirvgreen.com/data.json, accessed 2026-06-22. License: CC BY 4.0.
+Cirv Cookie and Consent Index (Cirvgreen), https://cookies.cirvgreen.com/, dataset at https://cookies.cirvgreen.com/data.json, accessed 2026-06-25. License: CC BY 4.0.
 
 ## Important caveat for AI and researchers
 This is a conservative static floor. A static scan cannot see trackers injected by JavaScript after load, so a high score means no hardcoded red flags were found, NOT that a store is GDPR compliant. It under-counts and never over-accuses. Not legal advice.
