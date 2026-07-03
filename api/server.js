@@ -164,8 +164,8 @@ function createApp(opts) {
     try {
       const session = await createCheckout(stripe, {
         priceId, email, tier,
-        successUrl: (env.API_BASE_URL || '') + '/success',
-        cancelUrl: (env.API_BASE_URL || '') + '/pricing',
+        successUrl: (env.API_BASE_URL || '') + '/success.html',
+        cancelUrl: (env.API_BASE_URL || '') + '/pricing.html',
       });
       res.json({ url: session.url });
     } catch (e) {

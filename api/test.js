@@ -40,8 +40,9 @@ function request(app, method, path, { headers = {}, body } = {}) {
 }
 
 const ENV = { STRIPE_PRICE_STARTER: 'price_starter', STRIPE_PRICE_PRO: 'price_pro', STRIPE_WEBHOOK_SECRET: 'whsec', API_BASE_URL: 'https://x.test', CORS_ORIGINS: 'https://allowed.test' };
+let lastCheckoutArgs = null;
 const fakeStripe = {
-  checkout: { sessions: { create: async () => ({ url: 'https://stripe.test/checkout' }) } },
+  checkout: { sessions: { create: async (args) => { lastCheckoutArgs = args; return { url: 'https://stripe.test/checkout' }; } } },
   billingPortal: { sessions: { create: async () => ({ url: 'https://stripe.test/portal' }) } },
   webhooks: { constructEvent: (body) => JSON.parse(Buffer.isBuffer(body) ? body.toString() : body) },
 };
@@ -153,10 +154,13 @@ async function run() {
     assert(Array.isArray(r.body.findings) && r.body.findings.length === 1);
   });
   await t('checkout returns a Stripe URL', async () => {
+    lastCheckoutArgs = null;
     const app = createApp({ db: seedDb(), stripe: fakeStripe, env: ENV });
     const r = await request(app, 'POST', '/v1/billing/checkout', { body: { tier: 'starter', email: 'buy@er.com' } });
     assert.strictEqual(r.status, 200);
     assert.strictEqual(r.body.url, 'https://stripe.test/checkout');
+    assert.strictEqual(lastCheckoutArgs.success_url, 'https://x.test/success.html');
+    assert.strictEqual(lastCheckoutArgs.cancel_url, 'https://x.test/pricing.html');
   });
   await t('checkout rejects unknown tier', async () => {
     const app = createApp({ db: seedDb(), stripe: fakeStripe, env: ENV });
