@@ -18,6 +18,7 @@ const SCANNER_URL = 'https://cirv-a11y-scanner.onrender.com';
 const GUARD_URL = 'https://wordpress.org/plugins/cirv-guard/';
 const A11Y_INDEX_URL = 'https://index.cirvgreen.com';
 const API_URL = 'https://cirv-cookie-api.onrender.com'; // override with --api-url
+const LEAD_WEBHOOK = 'https://n8n.cirvgreen.com/webhook/cirv-lead'; // claim/correction/contact leads → n8n → email
 
 // Cookieless analytics — no cookies, no PII. Set at build via
 // --analytics-provider / --analytics-id (or ANALYTICS_PROVIDER / ANALYTICS_ID env).
@@ -158,8 +159,10 @@ main h2{font-size:1.5rem;margin:44px 0 6px;letter-spacing:-.02em}
 .tier li{padding:5px 0;border-bottom:1px solid var(--line)}.tier li:last-child{border-bottom:0}
 .field{display:block;margin:12px 0}
 .field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
-.field input{width:100%;max-width:380px;padding:11px 14px;border:1px solid var(--line-2);font-size:.95rem;font-family:inherit;border-radius:var(--radius)}
-.field input:focus{border-color:var(--accent);outline:none}
+.field input,.field select,.field textarea{width:100%;max-width:380px;padding:11px 14px;border:1px solid var(--line-2);font-size:.95rem;font-family:inherit;border-radius:var(--radius);background:#fff;color:var(--ink)}
+.field textarea{max-width:560px;min-height:120px;resize:vertical}
+.field select{max-width:420px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);outline:none}
 .keybox{margin-top:14px;padding:14px;border:1px solid var(--accent);background:var(--accent-wash);font-family:'JetBrains Mono',monospace;font-size:.85rem;word-break:break-all}
 .msg{margin-top:10px;font-size:.9rem;min-height:1.2em}.msg.err{color:#b8341f}.msg.ok{color:var(--accent-d)}
 .note{color:var(--muted);font-size:.88rem}
@@ -237,7 +240,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
 ${body}
 </div></main>
 <footer class="site"><div class="wrap">
-Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
+Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. <a href="/claim.html">Claim or correct a listing</a>. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
 </div></footer>
 <script>
 (function(){
@@ -460,6 +463,8 @@ Get the full dataset via the API, or compare with our accessibility index.
 &nbsp;<a href="${esc(A11Y_INDEX_URL)}">Accessibility index →</a>
 </div>
 
+<p class="note" style="margin-top:12px">Is this your store? <a href="/claim.html?store=${encodeURIComponent(row.domain)}&amp;intent=claim">Claim this listing</a> · <a href="/claim.html?store=${encodeURIComponent(row.domain)}&amp;intent=correction">Request a correction</a> · <a href="/claim.html?store=${encodeURIComponent(row.domain)}&amp;intent=rescan">Request a rescan</a></p>
+
 ${passList ? `<h2>Passing checks</h2>${passList}` : ''}
 
 <p class="note">Static homepage signal only — cannot see JS-injected trackers, not a full audit, not legal advice. <a href="/methodology.html">How we score</a>.</p>`;
@@ -499,6 +504,70 @@ function renderMethodology(opts = {}) {
     title: 'Methodology — Cirv Cookie Index',
     description: 'How the Cirv Cookie Index reads cookie/consent (GDPR) signals from EU e-commerce homepages.',
     canonical: base + '/methodology.html',
+    jsonld: null,
+    body,
+  });
+}
+
+// ---- claim / correction / contact form ----
+function renderClaim(opts = {}) {
+  const base = opts.base || DEFAULT_BASE;
+  const body = `
+<section class="hero">
+<p class="eyebrow">For store owners</p>
+<h1>Claim or correct your listing</h1>
+<p class="lead">This index is a static, homepage-only signal for GDPR and ePrivacy consent. It cannot see JavaScript-injected trackers, so it is a conservative floor, not a verdict, and not legal advice. If a listing is yours, you can claim it, ask for a correction, or request a fresh rescan. We read every message.</p>
+</section>
+
+<form id="lead" class="claim-form" novalidate>
+<div class="field"><label for="intent">What do you need?</label>
+<select id="intent" name="intent">
+<option value="claim">Claim this listing (I represent this company)</option>
+<option value="correction">Request a correction</option>
+<option value="rescan">Request a fresh rescan</option>
+<option value="monthly-report">Get the monthly EU compliance report</option>
+<option value="api">API access enquiry</option>
+<option value="other">Something else</option>
+</select></div>
+<div class="field"><label for="store">Store domain</label><input id="store" name="store" type="text" placeholder="yourstore.com" autocomplete="url"></div>
+<div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" placeholder="Jane Doe" autocomplete="name"></div>
+<div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" placeholder="you@yourstore.com" autocomplete="email"></div>
+<div class="field"><label for="message">Message (optional)</label><textarea id="message" name="message" placeholder="Anything we should know?"></textarea></div>
+<div style="position:absolute;left:-9999px" aria-hidden="true"><label>Leave this blank<input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off"></label></div>
+<button class="btn" id="send" type="submit">Send</button>
+<div id="msg" class="msg" role="status" aria-live="polite"></div>
+</form>
+
+<p class="note">We only use this to respond to your request. We don't sell or share your details. Scores are automated and not legal advice. See <a href="/methodology.html">methodology</a>.</p>
+
+<script>
+(function(){
+var WEBHOOK=${JSON.stringify(LEAD_WEBHOOK)};
+var params=new URLSearchParams(location.search);
+var st=params.get('store'); if(st){ var se=document.getElementById('store'); if(se) se.value=st.slice(0,120); }
+var it=params.get('intent'); if(it){ var sel=document.getElementById('intent'); if(sel){ for(var i=0;i<sel.options.length;i++){ if(sel.options[i].value===it){ sel.selectedIndex=i; break; } } } }
+var form=document.getElementById('lead'),msg=document.getElementById('msg'),send=document.getElementById('send');
+function setMsg(t,err){ msg.textContent=t; msg.className='msg'+(err?' err':' ok'); }
+function emailOK(v){ return v.indexOf('@')>0 && v.lastIndexOf('.')>v.indexOf('@')+1; }
+form.addEventListener('submit',function(ev){
+  ev.preventDefault();
+  if(document.getElementById('company_url').value){ setMsg('Thanks.'); return; }
+  var email=document.getElementById('email').value.trim();
+  if(!emailOK(email)){ setMsg('Please enter a valid work email so we can reply.',true); return; }
+  var payload={ product:'cookie', intent:document.getElementById('intent').value, store:document.getElementById('store').value.trim(), name:document.getElementById('name').value.trim(), email:email, message:document.getElementById('message').value.trim(), source:location.href };
+  send.disabled=true; setMsg('Sending…');
+  var ctrl=new AbortController(); var timer=setTimeout(function(){ctrl.abort();},45000);
+  fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload),signal:ctrl.signal})
+    .then(function(r){ return r.json().catch(function(){ return {}; }); })
+    .then(function(){ clearTimeout(timer); setMsg('Thanks. We have it and will be in touch. You can close this page.'); form.reset(); })
+    .catch(function(err){ clearTimeout(timer); setMsg(err&&err.name==='AbortError'?'The server did not respond in time. Please try again in a moment.':'Could not send. Check your connection and try again.',true); send.disabled=false; });
+});
+})();
+</script>`;
+  return layout({
+    title: 'Claim or correct your listing — Cirv Cookie Index',
+    description: 'Store owners: claim your listing, request a correction or a fresh cookie/consent rescan. Static signal, not legal advice.',
+    canonical: base + '/claim.html',
     jsonld: null,
     body,
   });
@@ -703,7 +772,7 @@ function renderReport(rows, opts = {}) {
 <p class="eyebrow">Report · ${esc(year)}</p>
 <h1>The State of EU E-commerce Cookie Compliance</h1>
 <p class="lead">We scanned ${esc(total)} European online stores for cookie/consent signals — the GDPR + ePrivacy basics. Here's what we found (a conservative floor).</p>
-<p style="margin-top:18px"><a class="btn" href="/state-of-eu-cookie-compliance-${esc(year)}.pdf">Download the PDF</a> &nbsp;<span class="note">Updated ${esc(fmtDate(updated))}</span></p>
+<p style="margin-top:18px"><a class="btn" href="/data.json">View the open data</a> &nbsp;<span class="note">Updated ${esc(fmtDate(updated))} · CC-BY-4.0</span></p>
 </section>
 
 <div class="stats">
@@ -750,7 +819,7 @@ Run the free scanner, or pull the full dataset via the API.
 }
 
 function renderSitemap(rows, base, extra = []) {
-  const urls = [base + '/', base + '/countries.html', base + '/best.html', base + '/report.html', base + '/pricing.html', base + '/methodology.html']
+  const urls = [base + '/', base + '/countries.html', base + '/best.html', base + '/report.html', base + '/pricing.html', base + '/methodology.html', base + '/claim.html']
     .concat(extra.map((p) => base + p))
     .concat(rows.map((r) => base + '/sites/' + safeFile(r.domain) + '.html'));
   return (
@@ -796,6 +865,7 @@ function buildSite(db, outDir, opts = {}) {
   fs.writeFileSync(path.join(outDir, 'success.html'), renderSuccess({ base }));
   fs.writeFileSync(path.join(outDir, 'report.html'), renderReport(rows, { base, mode }));
   fs.writeFileSync(path.join(outDir, 'methodology.html'), renderMethodology({ base }));
+  fs.writeFileSync(path.join(outDir, 'claim.html'), renderClaim({ base }));
   for (const r of eligible) {
     fs.writeFileSync(path.join(outDir, 'sites', safeFile(r.domain) + '.html'), renderSite(r, { base }));
   }
@@ -842,4 +912,4 @@ function buildSite(db, outDir, opts = {}) {
   return { outDir, pages: 4 + eligible.length + countryGroups.length + 2, scored: ok.length, named: eligible.length, countries: countryGroups.length, total: rows.length, mode };
 }
 
-module.exports = { buildSite, renderIndex, renderSite, renderMethodology, renderPricing, renderReport, renderAnalytics, esc, grade, topIssue, safeFile };
+module.exports = { buildSite, renderIndex, renderSite, renderMethodology, renderPricing, renderReport, renderClaim, renderAnalytics, esc, grade, topIssue, safeFile };
