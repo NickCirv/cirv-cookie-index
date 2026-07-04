@@ -83,8 +83,10 @@ main h2{font-size:1.5rem;margin:44px 0 6px;letter-spacing:-.02em}
 .tier li{padding:5px 0;border-bottom:1px solid var(--line)}.tier li:last-child{border-bottom:0}
 .field{display:block;margin:12px 0}
 .field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
-.field input{width:100%;max-width:380px;padding:11px 14px;border:1px solid var(--line-2);font-size:.95rem;font-family:inherit;border-radius:var(--radius)}
-.field input:focus{border-color:var(--accent);outline:none}
+.field input,.field select,.field textarea{width:100%;max-width:380px;padding:11px 14px;border:1px solid var(--line-2);font-size:.95rem;font-family:inherit;border-radius:var(--radius);background:#fff;color:var(--ink)}
+.field textarea{max-width:560px;min-height:120px;resize:vertical}
+.field select{max-width:420px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);outline:none}
 .keybox{margin-top:14px;padding:14px;border:1px solid var(--accent);background:var(--accent-wash);font-family:'JetBrains Mono',monospace;font-size:.85rem;word-break:break-all}
 .msg{margin-top:10px;font-size:.9rem;min-height:1.2em}.msg.err{color:#b8341f}.msg.ok{color:var(--accent-d)}
 .note{color:var(--muted);font-size:.88rem}
@@ -142,11 +144,11 @@ a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
 <p class="lead">Cookie-consent practices vary sharply by market. Pick a country to see how its online stores score on static GDPR / ePrivacy consent signals.</p>
 </section>
 <h2>Countries</h2>
-<div class="tbl-wrap"><table><thead><tr><th>Country</th><th>Stores</th><th>Avg score</th></tr></thead><tbody><tr><td><a href="/country/international.html">International</a></td><td class="num">26</td><td class="score num">65/100</td></tr><tr><td><a href="/country/germany.html">Germany</a></td><td class="num">14</td><td class="score num">83/100</td></tr><tr><td><a href="/country/netherlands.html">Netherlands</a></td><td class="num">5</td><td class="score num">20/100</td></tr><tr><td><a href="/country/france.html">France</a></td><td class="num">3</td><td class="score num">89/100</td></tr><tr><td><a href="/country/poland.html">Poland</a></td><td class="num">3</td><td class="score num">22/100</td></tr></tbody></table></div>
+<div class="tbl-wrap"><table><thead><tr><th>Country</th><th>Stores</th><th>Avg score</th></tr></thead><tbody><tr><td><a href="/country/international.html">International</a></td><td class="num">26</td><td class="score num">63/100</td></tr><tr><td><a href="/country/germany.html">Germany</a></td><td class="num">14</td><td class="score num">83/100</td></tr><tr><td><a href="/country/netherlands.html">Netherlands</a></td><td class="num">5</td><td class="score num">20/100</td></tr><tr><td><a href="/country/france.html">France</a></td><td class="num">3</td><td class="score num">89/100</td></tr><tr><td><a href="/country/poland.html">Poland</a></td><td class="num">3</td><td class="score num">22/100</td></tr></tbody></table></div>
 <p class="note">A conservative floor, not a compliance verdict. See also: <a href="/">the full index</a> · <a href="/report.html">EU-wide report</a> · <a href="/best.html">cleanest stores</a>.</p>
 </div></main>
 <footer class="site"><div class="wrap">
-Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
+Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. <a href="/claim.html">Claim or correct a listing</a>. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
 </div></footer>
 <script>
 (function(){

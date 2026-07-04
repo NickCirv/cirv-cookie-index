@@ -83,8 +83,10 @@ main h2{font-size:1.5rem;margin:44px 0 6px;letter-spacing:-.02em}
 .tier li{padding:5px 0;border-bottom:1px solid var(--line)}.tier li:last-child{border-bottom:0}
 .field{display:block;margin:12px 0}
 .field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
-.field input{width:100%;max-width:380px;padding:11px 14px;border:1px solid var(--line-2);font-size:.95rem;font-family:inherit;border-radius:var(--radius)}
-.field input:focus{border-color:var(--accent);outline:none}
+.field input,.field select,.field textarea{width:100%;max-width:380px;padding:11px 14px;border:1px solid var(--line-2);font-size:.95rem;font-family:inherit;border-radius:var(--radius);background:#fff;color:var(--ink)}
+.field textarea{max-width:560px;min-height:120px;resize:vertical}
+.field select{max-width:420px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);outline:none}
 .keybox{margin-top:14px;padding:14px;border:1px solid var(--accent);background:var(--accent-wash);font-family:'JetBrains Mono',monospace;font-size:.85rem;word-break:break-all}
 .msg{margin-top:10px;font-size:.9rem;min-height:1.2em}.msg.err{color:#b8341f}.msg.ok{color:var(--accent-d)}
 .note{color:var(--muted);font-size:.88rem}
@@ -126,7 +128,7 @@ a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media (max-width:680px){header.site .wrap{flex-direction:column;align-items:flex-start;height:auto;gap:10px;padding:12px 0}nav.primary{width:100%;gap:12px 16px}.hero{padding:40px 0 8px}.hero h1{font-size:clamp(2rem,8vw,2.6rem)}}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Accessibility report for smallable.com","url":"https://cookies.cirvgreen.com/sites/smallable.com.html","dateModified":"2026-06-29","isPartOf":{"@type":"Dataset","name":"Cirv Cookie Index","url":"https://cookies.cirvgreen.com/"},"about":{"@type":"WebSite","url":"https://smallable.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Accessibility report for smallable.com","url":"https://cookies.cirvgreen.com/sites/smallable.com.html","dateModified":"2026-07-04","isPartOf":{"@type":"Dataset","name":"Cirv Cookie Index","url":"https://cookies.cirvgreen.com/"},"about":{"@type":"WebSite","url":"https://smallable.com/"}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -144,7 +146,7 @@ a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
 </section>
 
 <h1>Does smallable.com gate cookies before consent?</h1>
-<p>Static cookie/consent scan of <a href="https://smallable.com/" rel="nofollow">smallable.com</a>, last checked 2026-06-29. A conservative signal for <strong>GDPR / ePrivacy</strong> — static scanning cannot see JS-injected trackers, so this is a floor, not a verdict.</p>
+<p>Static cookie/consent scan of <a href="https://smallable.com/" rel="nofollow">smallable.com</a>, last checked 2026-07-04. A conservative signal for <strong>GDPR / ePrivacy</strong> — static scanning cannot see JS-injected trackers, so this is a floor, not a verdict.</p>
 
 <h2>Issues found</h2>
 <ul class="findings"><li class="fail"><strong>Cookie notice</strong> — Trackers detected but no cookie/consent notice found in the markup.</li></ul>
@@ -156,12 +158,14 @@ Get the full dataset via the API, or compare with our accessibility index.
 &nbsp;<a href="https://index.cirvgreen.com">Accessibility index →</a>
 </div>
 
+<p class="note" style="margin-top:12px">Is this your store? <a href="/claim.html?store=smallable.com&amp;intent=claim">Claim this listing</a> · <a href="/claim.html?store=smallable.com&amp;intent=correction">Request a correction</a> · <a href="/claim.html?store=smallable.com&amp;intent=rescan">Request a rescan</a></p>
+
 <h2>Passing checks</h2><ul class="findings"><li class="pass">Consent platform — Consent platform detected (Didomi) alongside trackers.</li><li class="pass">Tracker gating — 2 tracker type(s) present with a consent platform — verify they are blocked before consent.</li></ul>
 
 <p class="note">Static homepage signal only — cannot see JS-injected trackers, not a full audit, not legal advice. <a href="/methodology.html">How we score</a>.</p>
 </div></main>
 <footer class="site"><div class="wrap">
-Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
+Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. <a href="/claim.html">Claim or correct a listing</a>. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
 </div></footer>
 <script>
 (function(){

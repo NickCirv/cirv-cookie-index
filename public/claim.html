@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Does x-kom.pl respect cookie consent? — GDPR signal</title>
-<meta name="description" content="x-kom.pl scored 0/100 (grade F) on a static cookie/consent scan. 3 red flags. A conservative GDPR signal, not a verdict.">
-<link rel="canonical" href="https://cookies.cirvgreen.com/sites/x-kom.pl.html">
-<meta property="og:title" content="Does x-kom.pl respect cookie consent? — GDPR signal">
-<meta property="og:description" content="x-kom.pl scored 0/100 (grade F) on a static cookie/consent scan. 3 red flags. A conservative GDPR signal, not a verdict.">
+<title>Claim or correct your listing — Cirv Cookie Index</title>
+<meta name="description" content="Store owners: claim your listing, request a correction or a fresh cookie/consent rescan. Static signal, not legal advice.">
+<link rel="canonical" href="https://cookies.cirvgreen.com/claim.html">
+<meta property="og:title" content="Claim or correct your listing — Cirv Cookie Index">
+<meta property="og:description" content="Store owners: claim your listing, request a correction or a fresh cookie/consent rescan. Static signal, not legal advice.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://cookies.cirvgreen.com/sites/x-kom.pl.html">
+<meta property="og:url" content="https://cookies.cirvgreen.com/claim.html">
 <meta property="og:image" content="https://cookies.cirvgreen.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Does x-kom.pl respect cookie consent? — GDPR signal">
-<meta name="twitter:description" content="x-kom.pl scored 0/100 (grade F) on a static cookie/consent scan. 3 red flags. A conservative GDPR signal, not a verdict.">
+<meta name="twitter:title" content="Claim or correct your listing — Cirv Cookie Index">
+<meta name="twitter:description" content="Store owners: claim your listing, request a correction or a fresh cookie/consent rescan. Static signal, not legal advice.">
 <meta name="twitter:image" content="https://cookies.cirvgreen.com/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script data-goatcounter="https://cirvgreen2.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -128,7 +128,7 @@ a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media (max-width:680px){header.site .wrap{flex-direction:column;align-items:flex-start;height:auto;gap:10px;padding:12px 0}nav.primary{width:100%;gap:12px 16px}.hero{padding:40px 0 8px}.hero h1{font-size:clamp(2rem,8vw,2.6rem)}}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Accessibility report for x-kom.pl","url":"https://cookies.cirvgreen.com/sites/x-kom.pl.html","dateModified":"2026-07-04","isPartOf":{"@type":"Dataset","name":"Cirv Cookie Index","url":"https://cookies.cirvgreen.com/"},"about":{"@type":"WebSite","url":"https://x-kom.pl/"}}</script>
+
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -138,31 +138,57 @@ a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
 </div></header>
 <main id="main"><div class="wrap">
 
-<nav class="note" aria-label="Breadcrumb"><a href="/">Index</a> › x-kom.pl</nav>
-<section class="report-hero">
-<div><span class="badge g-f" style="font-size:1.4rem;padding:6px 14px">F</span></div>
-<div><div class="score-big">0<span class="note" style="font-size:1rem">/100</span></div>
-<div class="note">3 failed · 0 passed checks</div></div>
+<section class="hero">
+<p class="eyebrow">For store owners</p>
+<h1>Claim or correct your listing</h1>
+<p class="lead">This index is a static, homepage-only signal for GDPR and ePrivacy consent. It cannot see JavaScript-injected trackers, so it is a conservative floor, not a verdict, and not legal advice. If a listing is yours, you can claim it, ask for a correction, or request a fresh rescan. We read every message.</p>
 </section>
 
-<h1>Does x-kom.pl gate cookies before consent?</h1>
-<p>Static cookie/consent scan of <a href="https://x-kom.pl/" rel="nofollow">x-kom.pl</a>, last checked 2026-07-04. A conservative signal for <strong>GDPR / ePrivacy</strong> — static scanning cannot see JS-injected trackers, so this is a floor, not a verdict.</p>
+<form id="lead" class="claim-form" novalidate>
+<div class="field"><label for="intent">What do you need?</label>
+<select id="intent" name="intent">
+<option value="claim">Claim this listing (I represent this company)</option>
+<option value="correction">Request a correction</option>
+<option value="rescan">Request a fresh rescan</option>
+<option value="monthly-report">Get the monthly EU compliance report</option>
+<option value="api">API access enquiry</option>
+<option value="other">Something else</option>
+</select></div>
+<div class="field"><label for="store">Store domain</label><input id="store" name="store" type="text" placeholder="yourstore.com" autocomplete="url"></div>
+<div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" placeholder="Jane Doe" autocomplete="name"></div>
+<div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" placeholder="you@yourstore.com" autocomplete="email"></div>
+<div class="field"><label for="message">Message (optional)</label><textarea id="message" name="message" placeholder="Anything we should know?"></textarea></div>
+<div style="position:absolute;left:-9999px" aria-hidden="true"><label>Leave this blank<input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off"></label></div>
+<button class="btn" id="send" type="submit">Send</button>
+<div id="msg" class="msg" role="status" aria-live="polite"></div>
+</form>
 
-<h2>Issues found</h2>
-<ul class="findings"><li class="fail"><strong>Consent platform</strong> — Trackers detected (Google Analytics) but no consent-management platform found in the markup.</li><li class="fail"><strong>Cookie notice</strong> — Trackers detected but no cookie/consent notice found in the markup.</li><li class="fail"><strong>Tracker gating</strong> — 1 tracker type(s) load with no detectable consent gate.<br><span class="snippet">Google Analytics</span></li></ul>
+<p class="note">We only use this to respond to your request. We don't sell or share your details. Scores are automated and not legal advice. See <a href="/methodology.html">methodology</a>.</p>
 
-<div class="cta">
-<strong>Selling into the EU? Tracking without consent is GDPR exposure.</strong><br>
-Get the full dataset via the API, or compare with our accessibility index.
-<br><a class="btn" href="/pricing.html">Get API access</a>
-&nbsp;<a href="https://index.cirvgreen.com">Accessibility index →</a>
-</div>
-
-<p class="note" style="margin-top:12px">Is this your store? <a href="/claim.html?store=x-kom.pl&amp;intent=claim">Claim this listing</a> · <a href="/claim.html?store=x-kom.pl&amp;intent=correction">Request a correction</a> · <a href="/claim.html?store=x-kom.pl&amp;intent=rescan">Request a rescan</a></p>
-
-
-
-<p class="note">Static homepage signal only — cannot see JS-injected trackers, not a full audit, not legal advice. <a href="/methodology.html">How we score</a>.</p>
+<script>
+(function(){
+var WEBHOOK="https://n8n.cirvgreen.com/webhook/cirv-lead";
+var params=new URLSearchParams(location.search);
+var st=params.get('store'); if(st){ var se=document.getElementById('store'); if(se) se.value=st.slice(0,120); }
+var it=params.get('intent'); if(it){ var sel=document.getElementById('intent'); if(sel){ for(var i=0;i<sel.options.length;i++){ if(sel.options[i].value===it){ sel.selectedIndex=i; break; } } } }
+var form=document.getElementById('lead'),msg=document.getElementById('msg'),send=document.getElementById('send');
+function setMsg(t,err){ msg.textContent=t; msg.className='msg'+(err?' err':' ok'); }
+function emailOK(v){ return v.indexOf('@')>0 && v.lastIndexOf('.')>v.indexOf('@')+1; }
+form.addEventListener('submit',function(ev){
+  ev.preventDefault();
+  if(document.getElementById('company_url').value){ setMsg('Thanks.'); return; }
+  var email=document.getElementById('email').value.trim();
+  if(!emailOK(email)){ setMsg('Please enter a valid work email so we can reply.',true); return; }
+  var payload={ product:'cookie', intent:document.getElementById('intent').value, store:document.getElementById('store').value.trim(), name:document.getElementById('name').value.trim(), email:email, message:document.getElementById('message').value.trim(), source:location.href };
+  send.disabled=true; setMsg('Sending…');
+  var ctrl=new AbortController(); var timer=setTimeout(function(){ctrl.abort();},45000);
+  fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload),signal:ctrl.signal})
+    .then(function(r){ return r.json().catch(function(){ return {}; }); })
+    .then(function(){ clearTimeout(timer); setMsg('Thanks. We have it and will be in touch. You can close this page.'); form.reset(); })
+    .catch(function(err){ clearTimeout(timer); setMsg(err&&err.name==='AbortError'?'The server did not respond in time. Please try again in a moment.':'Could not send. Check your connection and try again.',true); send.disabled=false; });
+});
+})();
+</script>
 </div></main>
 <footer class="site"><div class="wrap">
 Cirv Cookie Index — an open cookie/consent (GDPR + ePrivacy) compliance signal for EU e-commerce. Static homepage analysis; a conservative signal, not a verdict, and not legal advice. <a href="/claim.html">Claim or correct a listing</a>. Built by <a href="https://cirvgreen.com">Cirvgreen</a>.
