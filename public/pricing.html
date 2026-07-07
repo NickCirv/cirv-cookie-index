@@ -18,7 +18,7 @@
 <meta name="twitter:description" content="Programmatic access to the EU e-commerce cookie/consent dataset. Free tier + Starter/Pro/Bulk plans. Scores, grades, and signals by API.">
 <meta name="twitter:image" content="https://cookies.cirvgreen.com/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<script data-goatcounter="https://cirvgreen2.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
 <style>
 :root{
   --paper:#fff;--paper-2:#fafafa;
@@ -28,7 +28,8 @@
   --radius:0;--radius-btn:3px;--ease:cubic-bezier(.23,1,.32,1);--maxw:1040px;
 }
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+main{flex:1}
 h1,h2,h3{font-family:'Inter Tight','Inter',sans-serif;letter-spacing:-.02em;line-height:1.06;color:var(--ink);font-weight:680;margin:0}
 a{color:var(--accent-d);text-decoration:none}a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -87,10 +88,19 @@ main h2{font-size:1.5rem;margin:44px 0 6px;letter-spacing:-.02em}
 .field textarea{max-width:560px;min-height:120px;resize:vertical}
 .field select{max-width:420px}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);outline:none}
-.keybox{margin-top:14px;padding:14px;border:1px solid var(--accent);background:var(--accent-wash);font-family:'JetBrains Mono',monospace;font-size:.85rem;word-break:break-all}
+.keyrow{display:flex;align-items:stretch;gap:10px;max-width:720px;margin-top:14px}.keyrow .keybox{flex:1;margin-top:0}
+.copybtn{white-space:nowrap}
+.keybox{margin-top:14px;padding:14px;border:1px solid var(--accent);background:var(--accent-wash);font-family:'JetBrains Mono',monospace;font-size:.85rem;word-break:break-all;color:var(--ink);text-align:left;appearance:none;cursor:pointer}
 .msg{margin-top:10px;font-size:.9rem;min-height:1.2em}.msg.err{color:#b8341f}.msg.ok{color:var(--accent-d)}
 .note{color:var(--muted);font-size:.88rem}
-footer.site{border-top:1px solid var(--rule);margin-top:64px;padding:32px 0;color:var(--muted);font-size:.88rem}footer.site a{color:var(--ink-2)}
+footer.site{border-top:1px solid var(--rule);margin-top:40px;padding:28px 0;color:var(--muted);font-size:.88rem}footer.site a{color:var(--ink-2)}
+.value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 34px}
+.value-card{border:1px solid var(--line-2);padding:18px 18px;background:var(--paper)}
+.value-card h3{font-size:1rem;margin:0 0 8px}.value-card p{margin:0;color:var(--ink-2);font-size:.94rem}
+.price-context{font-size:.86rem;color:var(--accent-d);margin:8px 0 0;font-weight:600}
+.faq{border-top:1px solid var(--rule);margin-top:34px}.faq details{border-bottom:1px solid var(--line);padding:16px 0}.faq summary{cursor:pointer;font-weight:650}.faq p{margin:8px 0 0;color:var(--ink-2)}
+.api-use{border:1px solid var(--rule);padding:22px;margin:28px 0;background:var(--paper-2)}
+.api-use ul{margin:12px 0 0;padding-left:20px}
 .bar-row{display:grid;grid-template-columns:128px 1fr 52px;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
 .bar-row:last-child{border-bottom:0}
 .bar-label{font-size:.86rem;color:var(--ink-2)}
@@ -104,7 +114,7 @@ footer.site{border-top:1px solid var(--rule);margin-top:64px;padding:32px 0;colo
 .report-lists li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
 .report-lists li:last-child{border-bottom:0}
 .bignum{font-family:'Inter Tight',sans-serif;font-variant-numeric:tabular-nums;font-size:clamp(2.6rem,6vw,4rem);font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--accent-d)}
-@media (max-width:760px){.report-lists{grid-template-columns:1fr}.bar-row{grid-template-columns:88px 1fr 40px}}
+@media (max-width:760px){.report-lists,.value-grid{grid-template-columns:1fr}.bar-row{grid-template-columns:88px 1fr 40px}.keyrow{flex-direction:column}.copybtn{width:100%}}
 @media print{header.site,footer.site,.cta,.search,.skip{display:none!important}body{background:#fff;font-size:12px}a{color:#000;text-decoration:none}.stats,.tbl-wrap,.report-lists,.bar-row{break-inside:avoid}main h2{margin-top:22px}}
 @media (max-width:760px){.stats,.tiers{grid-template-columns:1fr 1fr}.stat,.tier{border-left:0;border-top:1px solid var(--line)}.stats .stat:nth-child(-n+2),.tiers .tier:nth-child(-n+2){border-top:0}}
 @media (max-width:480px){.stats{grid-template-columns:1fr}.stat{border-top:1px solid var(--line)}.stat:first-child{border-top:0}}
@@ -139,42 +149,65 @@ a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
 <main id="main"><div class="wrap">
 
 <section class="hero">
-<p class="eyebrow">Developer API</p>
-<h1>Cookie compliance data, by API</h1>
-<p class="lead">Programmatic access to the full, named EU e-commerce cookie/consent dataset — scores, grades, and per-site signals. Start free in seconds; upgrade when you need volume.</p>
+<p class="eyebrow">For ecommerce, privacy, and agency teams</p>
+<h1>Find cookie-consent risk before it gets expensive</h1>
+<p class="lead">Cirv turns cookie and tracker checks into a plain score, grade, and issue list for EU ecommerce sites. Use it to see which stores may be loading trackers too early, what changed over time, and where to review consent setup first.</p>
 </section>
+
+<div class="value-grid">
+<div class="value-card"><h3>For store owners</h3><p>See whether your homepage shows obvious cookie or tracker red flags before a privacy review, redesign, or ad-tech change creates cleanup work.</p></div>
+<div class="value-card"><h3>For agencies</h3><p>Scan client portfolios, find risky consent setups, and turn the results into monthly privacy and ecommerce reports.</p></div>
+<div class="value-card"><h3>For teams</h3><p>Monitor after tag manager, analytics, ad pixel, CMP, theme, or checkout changes so regressions do not sit unnoticed.</p></div>
+</div>
 
 <div id="getkey-form" class="cta">
 <strong>Start free</strong>
-<p class="note">100 requests/day, no card required. Your key is shown once — copy it.</p>
+<p class="note">100 requests/day, no card required. Your key is shown once and can be copied with one click.</p>
 <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@company.com" autocomplete="email"></div>
 <button class="btn" id="getkey" type="button">Get a free key</button>
 <div id="msg" class="msg" role="status" aria-live="polite"></div>
-<div id="keybox" class="keybox" style="display:none" aria-live="polite"></div>
+<div id="keyrow" class="keyrow" style="display:none">
+<button class="keybox" id="keybox" type="button" aria-label="Copy API key" title="Copy API key"></button>
+<button class="btn copybtn" id="copykey" type="button">Copy key</button>
+</div>
 </div>
 
 <h2>Plans</h2>
 <div class="tiers">
 <div class="tier">
 <h3>Free</h3><div class="price num">$0</div>
+<p class="price-context">Validate the fit before paying.</p>
 <ul><li>100 requests / day</li><li>Scores &amp; grades</li><li>Per-site findings</li><li>Community support</li></ul>
 <a class="btn ghost" href="#getkey-form">Get free key</a>
 </div>
 <div class="tier">
 <h3>Starter</h3><div class="price num">$29<small>/mo</small></div>
+<p class="price-context">Cheaper than one hour of manual triage.</p>
 <ul><li>5,000 requests / day</li><li>Full named dataset</li><li>Per-site findings</li><li>Email support</li></ul>
 <button class="btn" type="button" data-tier="starter">Subscribe</button>
 </div>
 <div class="tier feat">
 <h3>Pro</h3><div class="price num">$99<small>/mo</small></div>
+<p class="price-context">Built for ongoing monitoring.</p>
 <ul><li>50,000 requests / day</li><li>Everything in Starter</li><li>History &amp; trends</li><li>Priority support</li></ul>
 <button class="btn" type="button" data-tier="pro">Subscribe</button>
 </div>
 <div class="tier">
 <h3>Bulk</h3><div class="price num">$299<small>/mo</small></div>
+<p class="price-context">For agencies and larger portfolios.</p>
 <ul><li>500,000 requests / day</li><li>Everything in Pro</li><li>Bulk export</li><li>SLA on request</li></ul>
 <button class="btn" type="button" data-tier="bulk">Subscribe</button>
 </div>
+</div>
+
+<div class="api-use">
+<strong>What can you actually do with the API?</strong>
+<ul>
+<li>Pull a ranked list of stores and identify who may need consent review.</li>
+<li>Look up one domain and see the score, grade, failed signals, and top issue.</li>
+<li>Feed cookie-consent scores into dashboards, client reports, lead scoring, or privacy QA workflows.</li>
+<li>Compare competitors or client sites without manually opening every homepage.</li>
+</ul>
 </div>
 
 <h2>Endpoints</h2>
@@ -188,21 +221,33 @@ a.btn:hover{box-shadow:0 8px 22px rgba(31,122,77,.25)}
 </table></div>
 <p class="note">Authenticate with <span class="snippet">Authorization: Bearer &lt;key&gt;</span>. Keys are stored hashed; payments run through Stripe. Full docs: <a href="https://github.com/NickCirv/cirv-accessibility-index#-api">README</a>.</p>
 
+<h2>FAQ</h2>
+<div class="faq">
+<details><summary>Is this a full legal cookie audit?</summary><p>No. It is a static homepage scan that catches common cookie and tracker signals. It helps prioritize review, but it is not legal advice or a compliance guarantee.</p></details>
+<details><summary>Why should a non-developer care?</summary><p>Cookie and tracker mistakes can affect customer trust, privacy review, advertising operations, and remediation cost. The score gives business teams a simple way to see where review is needed.</p></details>
+<details><summary>Why use an API instead of checking one page manually?</summary><p>The API is for repeated checks: portfolios, client lists, dashboards, monitoring, exports, and trend reports. If you only need one site once, start with the free key.</p></details>
+<details><summary>Does a high score mean we are compliant?</summary><p>No. A high score means no obvious static red flags were found on the homepage. JavaScript-injected trackers and legal consent details still need manual review.</p></details>
+<details><summary>Can agencies use this for clients?</summary><p>Yes. Agencies can use it to find which client sites need consent review, support monthly reports, and show progress after fixes.</p></details>
+</div>
+
 <script>
 (function(){
 var API="https://cirv-cookie-api.onrender.com";
 setTimeout(function(){try{fetch(API+'/healthz').then(function(){},function(){});}catch(e){}},100);
-var email=document.getElementById('email'),msg=document.getElementById('msg'),keybox=document.getElementById('keybox');
+var email=document.getElementById('email'),msg=document.getElementById('msg'),keybox=document.getElementById('keybox'),keyrow=document.getElementById('keyrow'),copykey=document.getElementById('copykey');
 function setMsg(t,err){msg.textContent=t;msg.className='msg'+(err?' err':' ok');}
 function emailOK(v){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);}
 function apiPost(path,payload){var ctrl=new AbortController();var timer=setTimeout(function(){ctrl.abort();},45000);return fetch(API+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),signal:ctrl.signal}).then(function(r){return r.json();}).finally(function(){clearTimeout(timer);});}
 function failMsg(err){return (err&&err.name==='AbortError')?'The server did not respond in time. It may be starting up after a quiet period; please try again in a moment.':'Could not reach the API. Check your connection and try again.';}
+function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText){return navigator.clipboard.writeText(t);}var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);return Promise.resolve();}
+function copyKey(){var k=keybox.textContent.trim();if(!k)return;copyText(k).then(function(){setMsg('Copied. Store it somewhere safe; it is shown only once.');copykey.textContent='Copied';setTimeout(function(){copykey.textContent='Copy key';},1600);});}
+keybox.addEventListener('click',copyKey);copykey.addEventListener('click',copyKey);
 document.getElementById('getkey').addEventListener('click',function(){
   var e=email.value.trim();
   if(!emailOK(e)){setMsg('Enter a valid email.',true);return;}
   setMsg('Creating your key…');
   apiPost('/v1/signup',{email:e})
-    .then(function(j){if(j.api_key){keybox.textContent=j.api_key;keybox.style.display='block';setMsg('Key created — copy it now, it is shown only once.');}else{setMsg(j.message||'A key already exists for that email.',false);}})
+    .then(function(j){if(j.api_key){keybox.textContent=j.api_key;keyrow.style.display='flex';setMsg('Key created. Tap the key or use the copy button; it is shown only once.');}else{setMsg(j.message||'A key already exists for that email.',false);}})
     .catch(function(err){setMsg(failMsg(err),true);});
 });
 [].forEach.call(document.querySelectorAll('[data-tier]'),function(btn){
