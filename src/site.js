@@ -366,6 +366,7 @@ function renderIndex(rows, opts = {}) {
 <p class="eyebrow">Open data · GDPR · ePrivacy</p>
 <h1>EU E-commerce Cookie Compliance Index</h1>
 <p class="lead">Do Europe's online stores load trackers <strong>before</strong> you consent? We scan homepages for cookie/consent signals — the <strong>GDPR + ePrivacy</strong> basics — and publish the findings openly. A conservative signal, not a verdict.</p>
+<div class="hero-actions"><a class="btn" href="/pricing.html">Use the API</a><a class="btn ghost" href="/report.html">View report</a></div>
 <div class="stats">
 <div class="stat"><b>${ok.length}</b><span>stores scored</span></div>
 <div class="stat"><b>${avg}</b><span>average score</span></div>
@@ -373,6 +374,18 @@ function renderIndex(rows, opts = {}) {
 <div class="stat"><b>${esc(fmtDate(updated))}</b><span>last updated</span></div>
 </div>
 </section>
+
+<div class="proof-strip">
+<div><strong>Find consent risk fast</strong><span>Turn cookie and tracker signals into a simple score, grade, and top issue.</span></div>
+<div><strong>Prioritize review</strong><span>See which stores, clients, or competitors may need consent setup attention first.</span></div>
+<div><strong>Monitor changes</strong><span>Use the API to watch scores after tag manager, analytics, ad pixel, CMP, or theme updates.</span></div>
+</div>
+
+<div class="value-grid">
+<div class="value-card"><h3>For store owners</h3><p>Check whether your homepage shows obvious cookie or tracker red flags before privacy review turns into cleanup work.</p></div>
+<div class="value-card"><h3>For agencies</h3><p>Use the index to find client consent issues, support retainers, and show progress with repeatable reports.</p></div>
+<div class="value-card"><h3>For teams</h3><p>Give ecommerce, privacy, marketing, and engineering a shared signal instead of scattered tag checks.</p></div>
+</div>
 
 <label class="skip" for="q">Filter stores</label>
 <input class="search" id="q" type="search" placeholder="Filter stores by name…" aria-label="Filter stores by name">
