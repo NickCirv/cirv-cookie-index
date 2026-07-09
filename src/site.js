@@ -118,9 +118,20 @@ header.site .wrap{display:flex;align-items:center;justify-content:space-between;
 .brand b{color:var(--accent)}
 nav.primary{display:flex;gap:24px}nav.primary a{color:var(--ink-2);font-size:.92rem;font-weight:500}nav.primary a:hover{color:var(--accent);text-decoration:none}
 .hero{padding:72px 0 8px}
+.pricing-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:34px;align-items:center;padding-bottom:26px}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-d);margin:0 0 18px}
 .hero h1{font-size:clamp(2.4rem,5.2vw,4rem);margin:0 0 18px;max-width:17ch}
+.pricing-hero h1{max-width:13ch}
 .lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--ink-2);max-width:62ch;margin:0}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:24px}
+.visual-panel{border:1px solid var(--rule);background:var(--paper-2);padding:10px;box-shadow:0 18px 42px rgba(20,23,26,.08)}
+.visual-panel img{display:block;width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover;border:1px solid var(--line)}
+.visual-caption{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);border-top:0;background:#fff}
+.visual-caption span{padding:10px 12px;border-left:1px solid var(--line);font-size:.78rem;color:var(--muted)}.visual-caption span:first-child{border-left:0}
+.visual-caption b{display:block;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem}
+.proof-strip{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);margin:20px 0 30px}
+.proof-strip div{padding:16px 18px;border-left:1px solid var(--line)}.proof-strip div:first-child{border-left:0}
+.proof-strip strong{display:block;font-family:'Inter Tight',sans-serif;font-size:1.05rem}.proof-strip span{display:block;margin-top:4px;color:var(--ink-2);font-size:.9rem}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--rule);margin:40px 0 8px}
 .stat{padding:22px 20px;border-left:1px solid var(--line)}.stat:first-child{border-left:0}
 .stat b{display:block;font-family:'Inter Tight',sans-serif;font-variant-numeric:tabular-nums;font-size:2.1rem;font-weight:700;line-height:1;letter-spacing:-.02em}
@@ -190,10 +201,12 @@ footer.site{border-top:1px solid var(--rule);margin-top:40px;padding:28px 0;colo
 .report-lists li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
 .report-lists li:last-child{border-bottom:0}
 .bignum{font-family:'Inter Tight',sans-serif;font-variant-numeric:tabular-nums;font-size:clamp(2.6rem,6vw,4rem);font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--accent-d)}
+@media (max-width:860px){.pricing-hero{grid-template-columns:1fr}.visual-panel{max-width:680px}.proof-strip{grid-template-columns:1fr}.proof-strip div{border-left:0;border-top:1px solid var(--line)}.proof-strip div:first-child{border-top:0}}
 @media (max-width:760px){.report-lists,.value-grid{grid-template-columns:1fr}.bar-row{grid-template-columns:88px 1fr 40px}.keyrow{flex-direction:column}.copybtn{width:100%}}
 @media print{header.site,footer.site,.cta,.search,.skip{display:none!important}body{background:#fff;font-size:12px}a{color:#000;text-decoration:none}.stats,.tbl-wrap,.report-lists,.bar-row{break-inside:avoid}main h2{margin-top:22px}}
 @media (max-width:760px){.stats,.tiers{grid-template-columns:1fr 1fr}.stat,.tier{border-left:0;border-top:1px solid var(--line)}.stats .stat:nth-child(-n+2),.tiers .tier:nth-child(-n+2){border-top:0}}
-@media (max-width:480px){.stats{grid-template-columns:1fr}.stat{border-top:1px solid var(--line)}.stat:first-child{border-top:0}}
+@media (max-width:560px){.tiers{grid-template-columns:1fr}.tier{border-left:0;border-top:1px solid var(--line)}.tiers .tier:first-child{border-top:0}.hero-actions .btn{width:100%;text-align:center}}
+@media (max-width:480px){.stats{grid-template-columns:1fr}.stat{border-top:1px solid var(--line)}.stat:first-child{border-top:0}.visual-caption{grid-template-columns:1fr}.visual-caption span{border-left:0;border-top:1px solid var(--line)}.visual-caption span:first-child{border-top:0}}
 .hero{position:relative;isolation:isolate}
 .hero::before{content:"";position:absolute;inset:-30% -15% auto -15%;height:460px;z-index:-1;pointer-events:none;background:radial-gradient(55% 100% at 22% 0%,rgba(31,122,77,.10),transparent 70%)}
 header.site{transition:box-shadow .25s var(--ease)}
@@ -632,11 +645,24 @@ function renderPricing(opts = {}) {
     isPartOf: { '@type': 'Dataset', name: 'Cirv Cookie Index', url: base + '/' },
   };
   const body = `
-<section class="hero">
+<section class="hero pricing-hero">
+<div>
 <p class="eyebrow">For ecommerce, privacy, and agency teams</p>
 <h1>Find cookie-consent risk before it gets expensive</h1>
 <p class="lead">Cirv turns cookie and tracker checks into a plain score, grade, and issue list for EU ecommerce sites. Use it to see which stores may be loading trackers too early, what changed over time, and where to review consent setup first.</p>
+<div class="hero-actions"><a class="btn" href="#getkey-form">Get free key</a><a class="btn ghost" href="#plans">Compare plans</a></div>
+</div>
+<div class="visual-panel" aria-label="Cirv Cookie Index preview">
+<img src="/og.png" alt="Preview of Cirv Cookie Index consent scores and reports" width="1200" height="630" loading="eager" fetchpriority="high">
+<div class="visual-caption"><span><b>Score</b>Plain consent signal</span><span><b>Issue</b>What needs review</span><span><b>API</b>Repeatable monitoring</span></div>
+</div>
 </section>
+
+<div class="proof-strip">
+<div><strong>Not just for engineers</strong><span>Gives business, privacy, and marketing teams a readable consent-risk signal.</span></div>
+<div><strong>Cheaper than cleanup</strong><span>Find obvious tracker and consent gaps before rushed tag or CMP remediation.</span></div>
+<div><strong>Built for portfolios</strong><span>Useful when one manual check is not enough and you need repeatable monitoring.</span></div>
+</div>
 
 <div class="value-grid">
 <div class="value-card"><h3>For store owners</h3><p>See whether your homepage shows obvious cookie or tracker red flags before a privacy review, redesign, or ad-tech change creates cleanup work.</p></div>
@@ -656,7 +682,7 @@ function renderPricing(opts = {}) {
 </div>
 </div>
 
-<h2>Plans</h2>
+<h2 id="plans">Plans</h2>
 <div class="tiers">
 <div class="tier">
 <h3>Free</h3><div class="price num">$0</div>
