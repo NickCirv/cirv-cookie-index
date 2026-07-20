@@ -1,9 +1,9 @@
 {
-  "updated": "2026-07-13",
+  "updated": "2026-07-20",
   "mode": "named",
-  "count": 36,
+  "count": 35,
   "license": "CC-BY-4.0",
-  "cite": "Cirv Cookie and Consent Index (Cirvgreen), https://cookies.cirvgreen.com, accessed 2026-07-13",
+  "cite": "Cirv Cookie and Consent Index (Cirvgreen), https://cookies.cirvgreen.com, accessed 2026-07-20",
   "source": "https://cookies.cirvgreen.com",
   "sites": [
     {
@@ -15,7 +15,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931939655
+      "scanned_at": 1784536267276
     },
     {
       "domain": "asambeauty.com",
@@ -26,7 +26,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931919951
+      "scanned_at": 1784536245521
     },
     {
       "domain": "bangerhead.com",
@@ -37,7 +37,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931937676
+      "scanned_at": 1784536265414
     },
     {
       "domain": "baur.de",
@@ -48,7 +48,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931915148
+      "scanned_at": 1784536241704
     },
     {
       "domain": "bonprix.de",
@@ -59,7 +59,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931915148
+      "scanned_at": 1784536241704
     },
     {
       "domain": "boohoo.com",
@@ -70,7 +70,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931939402
+      "scanned_at": 1784536266818
     },
     {
       "domain": "breuninger.com",
@@ -81,7 +81,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931917861
+      "scanned_at": 1784536244074
     },
     {
       "domain": "charlottetilbury.com",
@@ -92,7 +92,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931938956
+      "scanned_at": 1784536266378
     },
     {
       "domain": "cultbeauty.co.uk",
@@ -103,7 +103,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931938308
+      "scanned_at": 1784536266242
     },
     {
       "domain": "ellos.se",
@@ -114,7 +114,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931936724
+      "scanned_at": 1784536264625
     },
     {
       "domain": "gymshark.com",
@@ -125,7 +125,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931938531
+      "scanned_at": 1784536266254
     },
     {
       "domain": "juniqe.com",
@@ -136,7 +136,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931921150
+      "scanned_at": 1784536246925
     },
     {
       "domain": "lookfantastic.com",
@@ -147,7 +147,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931938152
+      "scanned_at": 1784536265861
     },
     {
       "domain": "manufactum.de",
@@ -158,7 +158,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931918297
+      "scanned_at": 1784536244123
     },
     {
       "domain": "mytoys.de",
@@ -169,7 +169,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931920056
+      "scanned_at": 1784536246462
     },
     {
       "domain": "na-kd.com",
@@ -180,7 +180,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931937005
+      "scanned_at": 1784536264706
     },
     {
       "domain": "nocibe.fr",
@@ -191,7 +191,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931923925
+      "scanned_at": 1784536250092
     },
     {
       "domain": "tchibo.de",
@@ -202,7 +202,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931915148
+      "scanned_at": 1784536241704
     },
     {
       "domain": "zalando.de",
@@ -213,7 +213,7 @@
       "passes": 3,
       "top_issue": null,
       "error_code": null,
-      "scanned_at": 1783931939488
+      "scanned_at": 1784536267159
     },
     {
       "domain": "bergfreunde.de",
@@ -224,7 +224,7 @@
       "passes": 2,
       "top_issue": "Cookie notice",
       "error_code": null,
-      "scanned_at": 1783931920032
+      "scanned_at": 1784536246062
     },
     {
       "domain": "home24.de",
@@ -235,7 +235,7 @@
       "passes": 2,
       "top_issue": "Cookie notice",
       "error_code": null,
-      "scanned_at": 1783931917559
+      "scanned_at": 1784536243929
     },
     {
       "domain": "eobuwie.pl",
@@ -246,7 +246,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931935422
+      "scanned_at": 1784536263398
     },
     {
       "domain": "fahrrad.de",
@@ -257,7 +257,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931917559
+      "scanned_at": 1784536243972
     },
     {
       "domain": "hema.nl",
@@ -268,18 +268,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931929481
-    },
-    {
-      "domain": "luisaviaroma.com",
-      "status": "ok",
-      "score": 33,
-      "grade": "F",
-      "fails": 2,
-      "passes": 1,
-      "top_issue": "Consent platform",
-      "error_code": null,
-      "scanned_at": 1783931932104
+      "scanned_at": 1784536255428
     },
     {
       "domain": "modivo.pl",
@@ -290,7 +279,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931935106
+      "scanned_at": 1784536262794
     },
     {
       "domain": "naturitas.es",
@@ -301,7 +290,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931933108
+      "scanned_at": 1784536260103
     },
     {
       "domain": "omoda.nl",
@@ -312,7 +301,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931929207
+      "scanned_at": 1784536255288
     },
     {
       "domain": "scalperscompany.com",
@@ -323,7 +312,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931934057
+      "scanned_at": 1784536260308
     },
     {
       "domain": "spartoo.com",
@@ -334,7 +323,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931923163
+      "scanned_at": 1784536248463
     },
     {
       "domain": "yoox.com",
@@ -345,7 +334,7 @@
       "passes": 1,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931931838
+      "scanned_at": 1784536258677
     },
     {
       "domain": "answear.com",
@@ -356,7 +345,7 @@
       "passes": 0,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931935963
+      "scanned_at": 1784536263626
     },
     {
       "domain": "fonq.nl",
@@ -367,7 +356,7 @@
       "passes": 0,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931930870
+      "scanned_at": 1784536255759
     },
     {
       "domain": "hawkersco.com",
@@ -378,7 +367,7 @@
       "passes": 0,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931933388
+      "scanned_at": 1784536260107
     },
     {
       "domain": "royaldesign.com",
@@ -389,7 +378,7 @@
       "passes": 0,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931937255
+      "scanned_at": 1784536265233
     },
     {
       "domain": "simonlevelt.nl",
@@ -400,7 +389,7 @@
       "passes": 0,
       "top_issue": "Consent platform",
       "error_code": null,
-      "scanned_at": 1783931931732
+      "scanned_at": 1784536257695
     },
     {
       "domain": "alltricks.fr",
@@ -411,7 +400,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931926114
+      "scanned_at": 1784536252658
     },
     {
       "domain": "avocadostore.de",
@@ -422,7 +411,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931918539
+      "scanned_at": 1784536244374
     },
     {
       "domain": "babyshop.com",
@@ -433,7 +422,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931937180
+      "scanned_at": 1784536265203
     },
     {
       "domain": "bottegaverde.it",
@@ -444,7 +433,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "fetch",
-      "scanned_at": 1783931932865
+      "scanned_at": 1784536259993
     },
     {
       "domain": "cdiscount.com",
@@ -455,7 +444,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931926154
+      "scanned_at": 1784536253826
     },
     {
       "domain": "eataly.com",
@@ -466,7 +455,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931932185
+      "scanned_at": 1784536259495
     },
     {
       "domain": "flaconi.de",
@@ -477,7 +466,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931915147
+      "scanned_at": 1784536241703
     },
     {
       "domain": "fnac.com",
@@ -488,7 +477,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931940106
+      "scanned_at": 1784536268082
     },
     {
       "domain": "laredoute.fr",
@@ -499,7 +488,18 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931921911
+      "scanned_at": 1784536247770
+    },
+    {
+      "domain": "luisaviaroma.com",
+      "status": "error",
+      "score": null,
+      "grade": "—",
+      "fails": null,
+      "passes": null,
+      "top_issue": null,
+      "error_code": "blocked_403",
+      "scanned_at": 1784536259053
     },
     {
       "domain": "made-in-design.com",
@@ -510,7 +510,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "network",
-      "scanned_at": 1783931925783
+      "scanned_at": 1784536250899
     },
     {
       "domain": "maisonsdumonde.com",
@@ -521,7 +521,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931924002
+      "scanned_at": 1784536250444
     },
     {
       "domain": "nelly.com",
@@ -532,7 +532,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931936560
+      "scanned_at": 1784536264522
     },
     {
       "domain": "notino.de",
@@ -543,7 +543,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931915142
+      "scanned_at": 1784536241699
     },
     {
       "domain": "perfumeriasprimor.com",
@@ -554,7 +554,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "dns",
-      "scanned_at": 1783931934874
+      "scanned_at": 1784536262740
     },
     {
       "domain": "privalia.com",
@@ -565,7 +565,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "fetch",
-      "scanned_at": 1783931934605
+      "scanned_at": 1784536262490
     },
     {
       "domain": "reuter.de",
@@ -576,7 +576,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931917454
+      "scanned_at": 1784536243201
     },
     {
       "domain": "sarenza.com",
@@ -587,7 +587,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931921949
+      "scanned_at": 1784536247864
     },
     {
       "domain": "sezane.com",
@@ -598,7 +598,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931923540
+      "scanned_at": 1784536248938
     },
     {
       "domain": "smallable.com",
@@ -609,7 +609,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "fetch",
-      "scanned_at": 1783931924024
+      "scanned_at": 1784536250895
     },
     {
       "domain": "wehkamp.nl",
@@ -620,7 +620,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931928609
+      "scanned_at": 1784536254773
     },
     {
       "domain": "x-kom.pl",
@@ -631,7 +631,7 @@
       "passes": null,
       "top_issue": null,
       "error_code": "blocked_403",
-      "scanned_at": 1783931936110
+      "scanned_at": 1784536263695
     }
   ]
 }
