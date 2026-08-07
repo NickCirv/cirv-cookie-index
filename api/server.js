@@ -39,6 +39,11 @@ function detail(r) {
   return { ...summary(r), final_url: r.final_url, findings };
 }
 
+function probeDatastores(db, keysDb) {
+  db.prepare('SELECT 1 FROM scans LIMIT 1').get();
+  keysDb.prepare('SELECT 1 FROM api_keys LIMIT 1').get();
+}
+
 // Stripe webhook → entitlement changes.
 function handleEvent(db, event, env, now) {
   const obj = event.data && event.data.object ? event.data.object : {};
@@ -109,7 +114,22 @@ function createApp(opts) {
 
   app.use(express.json({ limit: '16kb' }));
 
-  app.get('/healthz', (_req, res) => res.json({ ok: true }));
+  app.get('/livez', (_req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.json({ ok: true });
+  });
+
+  const readiness = (_req, res) => {
+    res.set('Cache-Control', 'no-store');
+    try {
+      probeDatastores(db, keysDb);
+      return res.json({ ok: true });
+    } catch {
+      return res.status(503).json({ ok: false });
+    }
+  };
+  app.get('/readyz', readiness);
+  app.get('/healthz', readiness); // compatibility alias for existing monitors
 
   // Free self-serve key (funnel entry).
   app.post('/v1/signup', (req, res) => {
