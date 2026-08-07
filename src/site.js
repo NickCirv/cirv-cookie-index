@@ -756,12 +756,11 @@ function renderPricing(opts = {}) {
 <script>
 (function(){
 var API=${JSON.stringify(apiUrl)};
-setTimeout(function(){try{fetch(API+'/healthz').then(function(){},function(){});}catch(e){}},100);
 var email=document.getElementById('email'),msg=document.getElementById('msg'),keybox=document.getElementById('keybox'),keyrow=document.getElementById('keyrow'),copykey=document.getElementById('copykey');
 function setMsg(t,err){msg.textContent=t;msg.className='msg'+(err?' err':' ok');}
 function emailOK(v){return /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(v);}
 function apiPost(path,payload){var ctrl=new AbortController();var timer=setTimeout(function(){ctrl.abort();},45000);return fetch(API+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),signal:ctrl.signal}).then(function(r){return r.json();}).finally(function(){clearTimeout(timer);});}
-function failMsg(err){return (err&&err.name==='AbortError')?'The server did not respond in time. It may be starting up after a quiet period; please try again in a moment.':'Could not reach the API. Check your connection and try again.';}
+function failMsg(err){return (err&&err.name==='AbortError')?'The server did not respond in time. Please try again in a moment.':'Could not reach the API. Check your connection and try again.';}
 function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText){return navigator.clipboard.writeText(t);}var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);return Promise.resolve();}
 function copyKey(){var k=keybox.textContent.trim();if(!k)return;copyText(k).then(function(){setMsg('Copied. Store it somewhere safe; it is shown only once.');copykey.textContent='Copied';setTimeout(function(){copykey.textContent='Copy key';},1600);});}
 keybox.addEventListener('click',copyKey);copykey.addEventListener('click',copyKey);

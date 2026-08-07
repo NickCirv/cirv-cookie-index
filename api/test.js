@@ -3,6 +3,7 @@
 // API tests — no framework, no network, no live Stripe. Run: node api/test.js
 const assert = require('assert');
 const http = require('http');
+const Database = require('better-sqlite3');
 const { openStore } = require('../src/store');
 const { recordScan } = require('../src/store');
 const { TIERS, priceForTier, tierForPrice } = require('./tiers');
@@ -22,7 +23,7 @@ const t = (name, fn) => {
 // fire a single request against the app (listen on ephemeral port, close after)
 function request(app, method, path, { headers = {}, body } = {}) {
   return new Promise((resolve, reject) => {
-    const server = app.listen(0, () => {
+    const server = app.listen(0, '127.0.0.1', () => {
       const port = server.address().port;
       const data = body !== undefined ? JSON.stringify(body) : null;
       const h = { ...headers };
@@ -110,11 +111,59 @@ async function run() {
   });
 
   // ---- HTTP integration ----
-  await t('healthz', async () => {
-    const app = createApp({ db: seedDb(), stripe: fakeStripe, env: ENV });
-    const r = await request(app, 'GET', '/healthz');
-    assert.strictEqual(r.status, 200);
-    assert.strictEqual(r.body.ok, true);
+  await t('health probes report process and datastore readiness without caching', async () => {
+    const db = seedDb();
+    const keysDb = openStore(':memory:');
+    const app = createApp({ db, keysDb, stripe: fakeStripe, env: ENV });
+    for (const path of ['/livez', '/readyz', '/healthz']) {
+      const r = await request(app, 'GET', path);
+      assert.strictEqual(r.status, 200, path);
+      assert.deepStrictEqual(r.body, { ok: true }, path);
+      assert.strictEqual(r.headers['cache-control'], 'no-store', path);
+    }
+    db.close();
+    keysDb.close();
+  });
+  await t('readiness fails generically when the dataset is unavailable', async () => {
+    const db = seedDb();
+    const keysDb = openStore(':memory:');
+    const app = createApp({ db, keysDb, stripe: fakeStripe, env: ENV });
+    db.close();
+    for (const path of ['/readyz', '/healthz']) {
+      const r = await request(app, 'GET', path);
+      assert.strictEqual(r.status, 503, path);
+      assert.deepStrictEqual(r.body, { ok: false }, path);
+      assert.strictEqual(r.headers['cache-control'], 'no-store', path);
+    }
+    const live = await request(app, 'GET', '/livez');
+    assert.strictEqual(live.status, 200);
+    assert.deepStrictEqual(live.body, { ok: true });
+    keysDb.close();
+  });
+  await t('readiness fails generically when the key store is unavailable', async () => {
+    const db = seedDb();
+    const keysDb = openStore(':memory:');
+    const app = createApp({ db, keysDb, stripe: fakeStripe, env: ENV });
+    keysDb.close();
+    const ready = await request(app, 'GET', '/readyz');
+    assert.strictEqual(ready.status, 503);
+    assert.deepStrictEqual(ready.body, { ok: false });
+    assert.strictEqual(ready.headers['cache-control'], 'no-store');
+    const live = await request(app, 'GET', '/livez');
+    assert.strictEqual(live.status, 200);
+    assert.deepStrictEqual(live.body, { ok: true });
+    db.close();
+  });
+  await t('readiness rejects a dataset with missing schema without leaking details', async () => {
+    const db = new Database(':memory:');
+    const keysDb = openStore(':memory:');
+    const app = createApp({ db, keysDb, stripe: fakeStripe, env: ENV });
+    const ready = await request(app, 'GET', '/readyz');
+    assert.strictEqual(ready.status, 503);
+    assert.deepStrictEqual(ready.body, { ok: false });
+    assert(!JSON.stringify(ready.body).includes('scans'));
+    db.close();
+    keysDb.close();
   });
   await t('signup issues a free key once; second call returns null', async () => {
     const app = createApp({ db: seedDb(), stripe: fakeStripe, env: ENV });

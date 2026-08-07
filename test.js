@@ -5,6 +5,7 @@
 
 const assert = require('assert');
 const { scanOne } = require('./src/crawl');
+const { renderPricing } = require('./src/site');
 const { ScanError } = require('./engine/fetch');
 
 let pass = 0, fail = 0;
@@ -99,6 +100,15 @@ const blocked = { ...fakeOk, fetchHtml: async () => { throw new ScanError('Acces
   await t('renderBestList includes only A/B', () => {
     const out = seo.renderBestList([{ domain: 'top.de', score: 95 }, { domain: 'mid.fr', score: 50 }], { base: 'https://x', mode: 'soft', h: fakeH });
     assert.ok(out.includes('/sites/top.de.html') && !out.includes('mid.fr'));
+  });
+  await t('renderPricing keeps explicit API actions without a browser warm-up', () => {
+    const html = renderPricing({ apiUrl: 'https://api.test' });
+    assert(html.includes('"https://api.test"'), 'embeds the API base');
+    assert(!html.includes("fetch(API+'/healthz')"), 'does not warm the API from the browser');
+    assert(!html.includes('quiet period'), 'does not show obsolete cold-start copy');
+    assert(html.includes('new AbortController()'), 'keeps a bounded request timeout');
+    assert.strictEqual((html.match(/apiPost\('\/v1\/signup'/g) || []).length, 1, 'signup is not retried');
+    assert.strictEqual((html.match(/apiPost\('\/v1\/billing\/checkout'/g) || []).length, 1, 'checkout is not retried');
   });
 
   console.log(pass + ' passed, ' + fail + ' failed');
